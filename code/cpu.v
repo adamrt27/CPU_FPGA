@@ -4,13 +4,15 @@ module cpu(CLK, reset, out)
 // I/O
 /////////////////////////////////////////////////////////////////////////////////
 
-input wire CLK;
-input wire reset;       
-output reg[15:0] out; // output of CPU
+input wire CLK;             // clock for ALU
+input wire reset;           // reset, active-high
+output reg[15:0] out;       // output of CPU to bus
 
 /////////////////////////////////////////////////////////////////////////////////
 // Opcodes
 /////////////////////////////////////////////////////////////////////////////////
+
+// parameters to define which bit code corresponds to which command
 
 parameter OP_ADD = 5'b0000;
 parameter OP_SUB = 5'b0001;
@@ -32,3 +34,36 @@ parameter OP_LT = 5'b10000;
 parameter OP_EQ = 5'b10001;
 parameter OP_STW = 5'b10010;
 parameter OP_LDW = 5'b10011;
+
+/////////////////////////////////////////////////////////////////////////////////
+// Registers
+/////////////////////////////////////////////////////////////////////////////////
+
+// 0 - 7: r0 - r7, 8: PC (program counter), 9: IR (instruction register), 10: FR (flag register)
+
+register[10:0][15:0]
+always@(posedge clk or posedge reset) begin
+    if (reset) begin        // on reset, set all registers to 0
+        integer i;
+        integer j;
+        initial begin
+            for (i = 0; i < 10; i = i + 1) begin
+                for (j = 0; j < 16; j = j + 1) begin
+                    register[i][j] <= 0;
+                end
+            end
+        end
+    end
+end
+
+/////////////////////////////////////////////////////////////////////////////////
+// Flags
+/////////////////////////////////////////////////////////////////////////////////
+
+// parameters to define which bits in FR correspond to which flags
+
+parameter FLAG_Z = 0;
+parameter FLAG_N = 1;
+
+endmodule
+
