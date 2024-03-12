@@ -28,7 +28,7 @@ module cpu(CLK, reset, out);
     parameter OP_XORI = 5'b1011;
     parameter OP_SLI = 5'b1100;
     parameter OP_SRI = 5'b1101;
-    parameter OP_BRI = 5'b1110;
+    parameter OP_BR = 5'b1110;
     parameter OP_GT = 5'b1111;
     parameter OP_LT = 5'b10000;
     parameter OP_EQ = 5'b10001;
@@ -41,13 +41,13 @@ module cpu(CLK, reset, out);
 
     // 0 - 7: r0 - r7, 8: PC (program counter), 9: IR (instruction register), 10: FR (flag register)
 
-    register[10:0][15:0]
+    register[3:0][15:0];
     always@(posedge clk or posedge reset) begin
         if (reset) begin        // on reset, set all registers to 0
             integer i;
             integer j;
             initial begin
-                for (i = 0; i < 10; i = i + 1) begin
+                for (i = 0; i < 5; i = i + 1) begin
                     for (j = 0; j < 16; j = j + 1) begin
                         register[i][j] <= 0;
                     end
