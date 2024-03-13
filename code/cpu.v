@@ -67,7 +67,7 @@ module cpu(CLK, reset, out);
 
 endmodule
 
-module FSM(CLK, reset, opcode, op);
+module FSM(CLK, reset, opcode, op, in_a, in_b);
 
     /////////////////////////////////////////////////////////////////////////////////
     // module I/O
@@ -80,7 +80,6 @@ module FSM(CLK, reset, opcode, op);
     output reg[3:0] op;         // op parameter for ALU
     output reg[15:0] in_a;       // value of register a for input to ALU
     output reg[15:0] in_b;       // value of register b for input to ALU
-
 
     reg immd;                   // if 1, put immed in in_b
     
