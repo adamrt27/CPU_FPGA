@@ -36,7 +36,41 @@ module cpu(CLK, reset, out);
     parameter OP_LDW = 5'b10011;
 
     /////////////////////////////////////////////////////////////////////////////////
-    // Registers
+    // Flags
+    /////////////////////////////////////////////////////////////////////////////////
+
+    // parameters to define which bits in FR correspond to which flags
+
+    parameter FLAG_Z = 0;
+    parameter FLAG_N = 1;
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // Connecting parser to ALU
+    /////////////////////////////////////////////////////////////////////////////////
+
+    wire [3:0] op;
+    wire [15:0] in_a, in_b;
+
+    parser p0(CLK, reset, opcode, register, op, in_a, in_b);
+    ALU a0(CLK, reset, op, in_a, in_b, out);
+
+endmodule
+
+module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, dataA, dataB, dataW);
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // module I/O
+    /////////////////////////////////////////////////////////////////////////////////
+
+    input wire CLK;                     // clock for cpu
+    input wire reset;                   // reset, active-high
+    input wire RFwrite;                 // if 1, regW = dataW
+    input reg regA, regB, regW;        // the number of the register 
+    input reg [15:0] dataW;            // data to be put into regW
+    output reg [15:0] dataA, dataB;    // data to be put into regA/B
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // Register Initialization
     /////////////////////////////////////////////////////////////////////////////////
 
     // 0 - 7: r0 - r7, 8: PC (program counter), 9: IR (instruction register), 10: FR (flag register)
@@ -47,42 +81,36 @@ module cpu(CLK, reset, out);
             integer i;
             integer j;
             initial begin
-                for (i = 0; i < 5; i = i + 1) begin
-                    for (j = 0; j < 16; j = j + 1) begin
-                        register[i][j] <= 0;
-                    end
+                for (i = 0; i < 15; i = i + 1) begin
+                        register[i] <= 0;
                 end
             end
         end
     end
 
     /////////////////////////////////////////////////////////////////////////////////
-    // Flags
+    // Retrieving dataA and dataB
     /////////////////////////////////////////////////////////////////////////////////
 
-    // parameters to define which bits in FR correspond to which flags
+    always@(posedge clk) begin
+        dataA <= register[regA];
+        dataB <= register[regB];
+    end
 
-    parameter FLAG_Z = 0;
-    parameter FLAG_N = 1;
+    /////////////////////////////////////////////////////////////////////////////////
+    // Setting regW
+    /////////////////////////////////////////////////////////////////////////////////
+
+    always@(posedge clk) begin
+        if (RFwrite) begin
+            register[regW] <= dataW;
+        end
+    end
 
 endmodule
 
-module FSM(CLK, reset, opcode, op, in_a, in_b);
+module FSM();
 
-    /////////////////////////////////////////////////////////////////////////////////
-    // module I/O
-    /////////////////////////////////////////////////////////////////////////////////
-
-    input wire CLK;             // clock for ALU
-    input wire reset;           // reset, active-high
-    input reg[15:0] opcode;     // OPCODE in IR
-    input reg [15:0]register[3:0];
-    output reg[3:0] op;         // op parameter for ALU
-    output reg[15:0] in_a;       // value of register a for input to ALU
-    output reg[15:0] in_b;       // value of register b for input to ALU
-
-    reg immd;                   // if 1, put immed in in_b
-    
     /////////////////////////////////////////////////////////////////////////////////
     // State Initialization
     /////////////////////////////////////////////////////////////////////////////////
@@ -121,8 +149,24 @@ module FSM(CLK, reset, opcode, op, in_a, in_b);
                 else next_state = play_note;
             end  
         endcase
-
     end
+endmodule
+
+module parser(CLK, reset, opcode, register, op, in_a, in_b);
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // module I/O
+    /////////////////////////////////////////////////////////////////////////////////
+
+    input wire CLK;             // clock for ALU
+    input wire reset;           // reset, active-high
+    input reg[15:0] opcode;     // OPCODE in IR
+    input reg [15:0]register[3:0];
+    output reg[3:0] op;         // op parameter for ALU
+    output reg[15:0] in_a;       // value of register a for input to ALU
+    output reg[15:0] in_b;       // value of register b for input to ALU
+
+    reg immed;                   // if 1, put immed in in_b
 
     /////////////////////////////////////////////////////////////////////////////////
     // Parsing Op-Code
@@ -211,15 +255,18 @@ module FSM(CLK, reset, opcode, op, in_a, in_b);
 
     reg [3:0] reg_a;
     reg [3:0] reg_b;
+    reg [3:0] reg_out;
 
     always@(*)
     begin
         if(immed == 0) begin
-            reg_a = opcode[15:13];
-            reg_b = opcode[8:5];
+            reg_out = opcode[15:13];
+            reg_a = opcode[12:10];
+            reg_b = opcode[9:7];
         end 
         else begin
-            reg_a = opcode[15:13];
+            reg_out = opcode[15:13];
+            reg_a = opcode[12:10];
         end
     end
 
@@ -235,7 +282,7 @@ module FSM(CLK, reset, opcode, op, in_a, in_b);
         end
         else begin
             in_a = registers[reg_a];
-            in_b = opcode[12:5];
+            in_b = opcode[9:5];
         end
     end
 
