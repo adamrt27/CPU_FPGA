@@ -36,6 +36,25 @@ module cpu(CLK, reset, out);
     parameter OP_LDW = 5'b10011;
 
     /////////////////////////////////////////////////////////////////////////////////
+    // Register Initialization
+    /////////////////////////////////////////////////////////////////////////////////
+
+    // 0 - 7: r0 - r7, 8: PC (program counter), 9: IR (instruction register), 10: FR (flag register)
+
+    reg [15:0]register[3:0];
+    always@(posedge clk or posedge reset) begin
+        if (reset) begin        // on reset, set all registers to 0
+            integer i;
+            integer j;
+            initial begin
+                for (i = 0; i < 15; i = i + 1) begin
+                        register[i] <= 0;
+                end
+            end
+        end
+    end
+
+    /////////////////////////////////////////////////////////////////////////////////
     // Flags
     /////////////////////////////////////////////////////////////////////////////////
 
@@ -45,14 +64,71 @@ module cpu(CLK, reset, out);
     parameter FLAG_N = 1;
 
     /////////////////////////////////////////////////////////////////////////////////
-    // Connecting parser to ALU
+    // Setting up blocks
     /////////////////////////////////////////////////////////////////////////////////
 
+    // PC
+    wire [15:0] PC;
+    wire PC_incr;
+    wire PC_EN;
+    Reg PC(CLK, reset, PC_EN, PC + PC_incr, PC);
+
+    // IR
+    wire [15:0] IR;
+    wire IR_EN;
+    Reg IR(CLK, reset, IR_EN, , IR);
+
+    // Register File
+    wire RFwrite;
+    wire [3:0] regA, regB, regW;
+    wire [15:0] dataA, dataB, dataW;
+    RegisterFile RF(CLK, reset, RFwrite, regA, regB, regW, dataA, dataB, dataW);
+
+    // memory
+    
+    memory m0(CLK, reset, MemRead, MemWrite, PC, Data_in, Data_out);
+
+    // ALU
     wire [3:0] op;
     wire [15:0] in_a, in_b;
-
-    parser p0(CLK, reset, opcode, register, op, in_a, in_b);
+    parser p0(CLK, reset, IR, op, in_a, in_b);
     ALU a0(CLK, reset, op, in_a, in_b, out);
+
+endmodule
+
+module Reg(CLK, reset, EN, in, out);
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // module I/O
+    /////////////////////////////////////////////////////////////////////////////////
+
+    input wire CLK;                     // clock for cpu
+    input wire reset;                   // reset, active-high
+    input wire EN;                      // enable signals
+    input wire in;                      // input value
+    output reg [15:0] out;              // current value of Reg
+
+     /////////////////////////////////////////////////////////////////////////////////
+    // Register Initialization
+    /////////////////////////////////////////////////////////////////////////////////
+
+    reg [15:0] R;
+    always@(posedge clk or posedge reset) begin
+        if (reset) begin        // on reset, set all registers to 0
+            R <= 0;
+        end
+        if (EN) begin
+            R <= in;
+        end
+    end
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // setting output
+    /////////////////////////////////////////////////////////////////////////////////
+
+    always@(posedge clk) begin
+        out <= PC;
+    end
 
 endmodule
 
@@ -109,7 +185,15 @@ module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, dataA, dataB, dataW);
 
 endmodule
 
-module FSM();
+module FSM(CLK, reset, MemRead, MemWrite);
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // module I/O
+    /////////////////////////////////////////////////////////////////////////////////
+
+    input wire CLK;                 // clock for cpu
+    input wire reset;               // reset, active-high
+    output reg MemRead, MemWrite;  // read and write signals for memory
 
     /////////////////////////////////////////////////////////////////////////////////
     // State Initialization
@@ -132,27 +216,64 @@ module FSM();
     /////////////////////////////////////////////////////////////////////////////////
 
     // state params
-    localparam start = 0, load_op = 1, load_a = 2, load_b = 3;
+    localparam fetch = 0, parse = 1, ALU_op = 2, Fin_ar = 3;
 
     always@(*)
     begin: state_table
         case ( cur_state )
-            start: begin // starting state, when reset
-                if (note_in) next_state = load_note;
-                else next_state = start;
+            fetch: begin // starting state, when reset
+                if (op_in) next_state = parse;
+                else next_state = fetch;
             end
-            load_note: begin // state to load in note to waveform
-                next_state = play_note;
+            parse: begin // state to load in note to waveform
+                if (arith) next_state = ALU_op;
             end
-            play_note: begin // state to play note
-                if (note_in) next_state = load_note;
-                else next_state = play_note;
-            end  
+            ALU_op: begin // state to play note
+                next_state = Fin_ar;
+            end
+            Fin_ar: begin
+                next_state = fetch;
+            end
         endcase
     end
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // Enable Signals
+    /////////////////////////////////////////////////////////////////////////////////
+
+    always @(*)
+    begin: enable_signals
+        // By default make all our signals 0
+        MemRead = 0;
+        MemWrite = 0;
+
+        case (cur_state)
+          fetch: begin
+            MemRead = 1;
+          end
+          play_note: begin
+            ld_play = 1;
+          end
+        endcase
+    end // enable_signals
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // Updating States
+    /////////////////////////////////////////////////////////////////////////////////
+
+    always @(posedge clk)
+    begin: state_FFs
+        if(!reset) begin
+            cur_state <=  start; // Should set reset state to state A
+        end
+        else begin 
+            // fill in
+            cur_state <= next_state;
+        end
+    end // state_FFS
 endmodule
 
-module parser(CLK, reset, opcode, register, op, in_a, in_b);
+module parser(CLK, reset, opcode, immed, op, regA, regB, regOut);
 
     /////////////////////////////////////////////////////////////////////////////////
     // module I/O
@@ -161,12 +282,11 @@ module parser(CLK, reset, opcode, register, op, in_a, in_b);
     input wire CLK;             // clock for ALU
     input wire reset;           // reset, active-high
     input reg[15:0] opcode;     // OPCODE in IR
-    input reg [15:0]register[3:0];
+    output reg immed;           // 1 if we need to take immed value, 0 othersie
     output reg[3:0] op;         // op parameter for ALU
-    output reg[15:0] in_a;       // value of register a for input to ALU
-    output reg[15:0] in_b;       // value of register b for input to ALU
-
-    reg immed;                   // if 1, put immed in in_b
+    output reg[3:0] regA;       // value of rA
+    output reg[r:0] regB;       // value of rB
+    output reg[r:0] regOut;     // value of rOut
 
     /////////////////////////////////////////////////////////////////////////////////
     // Parsing Op-Code
@@ -174,10 +294,8 @@ module parser(CLK, reset, opcode, register, op, in_a, in_b);
 
     always@(*)
     begin:
-
         op = 0;
         immed = 0;
-
         case(opcode[4:0])
             OP_ADD: begin
                 op = ADD;
@@ -253,40 +371,45 @@ module parser(CLK, reset, opcode, register, op, in_a, in_b);
     // Parsing Registers
     /////////////////////////////////////////////////////////////////////////////////
 
-    reg [3:0] reg_a;
-    reg [3:0] reg_b;
-    reg [3:0] reg_out;
 
     always@(*)
     begin
         if(immed == 0) begin
-            reg_out = opcode[15:13];
-            reg_a = opcode[12:10];
-            reg_b = opcode[9:7];
+            regOut = opcode[15:13];
+            regA = opcode[12:10];
+            regB = opcode[9:7];
         end 
         else begin
-            reg_out = opcode[15:13];
-            reg_a = opcode[12:10];
-        end
-    end
-
-    /////////////////////////////////////////////////////////////////////////////////
-    // Retrieving Value from Registers
-    /////////////////////////////////////////////////////////////////////////////////
-
-    always@(*)
-    begin
-        if(immed == 0) begin
-            in_a = registers[reg_a];
-            in_b = registers[reg_b];
-        end
-        else begin
-            in_a = registers[reg_a];
-            in_b = opcode[9:5];
+            regOut = opcode[15:13];
+            regA = opcode[12:10];
         end
     end
 
 endmodule
+
+module MUX_2_to_1_SE(CLK, reset, a, b, sel, out);
+
+    // 16 bit, 2-1 mux with sign extension to be used for immediates
+    
+    /////////////////////////////////////////////////////////////////////////////////
+    // module I/O
+    /////////////////////////////////////////////////////////////////////////////////
+
+    input wire CLK;             // clock for ALU
+    input wire reset;           // reset, active-high
+    input wire [15:0] a, b;      // inputs a,b
+    input wire sel;             // selector bit
+    output reg [15:0] out;       // output of MUX
+
+    always@(*) begin
+        case(sel) 
+            0: out <= $signed(a);
+            1: out <= $signed(b);
+        endcase
+    end
+
+endmodule
+
 
 module ALU(CLK, reset, op, in_a, in_b, out);
 
