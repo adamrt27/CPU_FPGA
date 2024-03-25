@@ -54,7 +54,7 @@ module cpu(CLK, reset, out);
 
     // PC, program counter
     wire [15:0] PC;
-    Reg PC(CLK, reset, PC_EN, PC + 1, PC);
+    Reg PC(CLK, reset, PC_EN, PC_IN, PC);
 
     // memory
     wire [15:0] MemOut;
@@ -91,13 +91,18 @@ module cpu(CLK, reset, out);
     wire dataW_MDR;
     MUX_2_to_1_SE M_dataW(CLK, reset, ALUout, MDR, dataW_MDR, dataW);
 
+    // PC selector MUX, selects between putting PC + 1 in PC and Immd5 * 16
+    wire [15:0] PC_IN;
+    wire BR_EN;
+    MUX_2_to_1_SE M_PC(CLK, reset, PC + 1, IR[9:5] * 16, BR_EN, PC_IN);
+
     // ALU
     wire [15:0] ALUout;
     ALU a0(CLK, reset, op, dataA, dataB_immed, ALUout);
 
 endmodule
 
-module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, RFwrite);
+module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite, LDW_EN, dataW_MDR);
 
     /////////////////////////////////////////////////////////////////////////////////
     // module I/O
@@ -107,7 +112,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, RFwrite);
     input wire reset;                               // reset, active-high
     input wire [15:0] op;                            // opcode
     output reg MemRead, MemWrite;                   // read and write signals for memory
-    output reg IR_EN, PC_EN, MDR_EN, RFwrite;       // enable signals for PC, IR, MDR and RF
+    output reg IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite;// enable signals for PC, IR, MDR and RF
     output reg LDW_EN, dataW_MDR;                   // selectors for muxes to control input to memory ADDR 
                                                     // and input to dataW
 
@@ -132,7 +137,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, RFwrite);
     /////////////////////////////////////////////////////////////////////////////////
 
     // state params
-    localparam fetch = 0, parse = 1, AR_ALU = 2, AR_ROut = 3, LDW_MDR = 4, LDW_ROut = 5, STW = 6;
+    localparam fetch = 0, parse = 1, AR_ALU = 2, AR_ROut = 3, LDW_MDR = 4, LDW_ROut = 5, STW = 6, BR = 7;
 
     always@(*)
     begin: state_table
@@ -144,6 +149,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, RFwrite);
                 if (opcode[4:0] <= OP_EQ) next_state = AR_ALU; // if op < 8, it is arithmetic
                 else if (opcode[4:0] == OP_LDW) next_state = LDW_MDR;        // if op == 8,
                 else if (opcode[4:0] == OP_STW) next_state = STW;
+                else if (opcode[4:0] == OP_BR) next_state = BR;
             end
             AR_ALU: begin // state to play note
                 next_state = AR_ROut;
@@ -158,6 +164,9 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, RFwrite);
                 next_state = fetch;
             end
             STW: begin
+                next_state = fetch;
+            end
+            BR: begin
                 next_state = fetch;
             end
         endcase
@@ -177,6 +186,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, RFwrite);
         RFwrite = 0;
         LDW_EN = 0;
         MDR_EN = 0;
+        BR_EN = 0;
         dataW_MDR = 0;
 
         case (cur_state)
@@ -200,6 +210,9 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, RFwrite);
           STW: begin
             LDW_EN = 1;
             MemWrite = 1;
+          end
+          BR: begin
+            BR_EN = 1;
           end
         endcase
     end // enable_signals
