@@ -2,9 +2,7 @@
 
 vlib work
 
-# compile all verilog modules in mux.v to working dir
-# could also have multiple verilog files
-vlog memory.v cpu.v
+vlog cpu.v memory.v
 
 #load simulation using mux as the top level simulation module
 vsim cpu
@@ -16,7 +14,7 @@ add wave {/*}
 
 
 # set clock
-force {clk} 0 0ns, 1 {5ns} -r 10 ns
+force {CLK} 0 0ns, 1 {5ns} -r 10 ns
 
 # TestCases: reset, play middle c (c4), square
 force {reset} 1 0 ms, 0 10 ms

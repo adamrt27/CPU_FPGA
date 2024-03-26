@@ -1,0 +1,175 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dW:/CPU_FPGA/code
+vALU
+Z1 !s110 1711467642
+!i10b 1
+!s100 miZ606ThT^:Fa12U0F1nW3
+IW6?i`bj^Y7b0oo@;z[GXN1
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1711467637
+Z4 8cpu.v
+Z5 Fcpu.v
+L0 523
+Z6 OV;L;10.5b;63
+r1
+!s85 0
+31
+Z7 !s108 1711467639.000000
+Z8 !s107 memory.v|cpu.v|
+Z9 !s90 -reportprogress|300|cpu.v|memory.v|
+!i113 1
+Z10 tCvgOpt 0
+n@a@l@u
+vcpu
+!s110 1711467641
+!i10b 1
+!s100 a?ndHc:bzMEZlC;?hP_KS0
+ICl4z:>0hFXTQ=;cE_obFC0
+R2
+R0
+R3
+R4
+R5
+L0 1
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vFSM
+R1
+!i10b 1
+!s100 fWDOAJFobe22ejIkFohFc1
+IjiUc0:PU4bX4WjchYiZ>32
+R2
+R0
+R3
+R4
+R5
+L0 106
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+n@f@s@m
+vmemory
+R1
+!i10b 1
+!s100 dQVcKB`fzoo8W^e2>73TW0
+I@eg?9<M4:S`Y]R^;3;M5L2
+R2
+R0
+w1711466190
+8memory.v
+Fmemory.v
+L0 3
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vMUX_2_to_1_SE
+R1
+!i10b 1
+!s100 U6g]9GnW8HmCJfVD00D4i3
+IFlNUD3`T=BDlfK[[CmnL`3
+R2
+R0
+R3
+R4
+R5
+L0 499
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+n@m@u@x_2_to_1_@s@e
+vparser
+R1
+!i10b 1
+!s100 in5``j=W^0=zOYgW8^zKU2
+I1NC3oNOXkdcza]dmMFGlW0
+R2
+R0
+R3
+R4
+R5
+L0 341
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+vReg
+R1
+!i10b 1
+!s100 8mTFbQ3jYE0R8R7RzOobL0
+IDHFC4JLKi?5_JhSVoFckU0
+R2
+R0
+R3
+R4
+R5
+L0 253
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+n@reg
+vRegisterFile
+R1
+!i10b 1
+!s100 DN_T0P9638<Ee0]cTR^6:3
+Idd?W;ki96UGhjQoI34>Xk0
+R2
+R0
+R3
+R4
+R5
+L0 289
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!i113 1
+R10
+n@register@file

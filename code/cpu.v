@@ -1,4 +1,4 @@
-module cpu(CLK, reset, out);
+module cpu(CLK, reset);
 
     /////////////////////////////////////////////////////////////////////////////////
     // module I/O
@@ -6,7 +6,7 @@ module cpu(CLK, reset, out);
 
     input wire CLK;             // clock for cpu
     input wire reset;           // reset, active-high
-    output [15:0] out;       // output of CPU to bus
+    //output [15:0] out;       // output of CPU to bus
 
     /////////////////////////////////////////////////////////////////////////////////
     // Opcodes
@@ -46,58 +46,59 @@ module cpu(CLK, reset, out);
     // Setting up blocks
     /////////////////////////////////////////////////////////////////////////////////
 
-    // FSM
+    // wires
+    wire [15:0] ALUout;
     wire MemRead, MemWrite;
     wire IR_EN, PC_EN, MDR_EN;
     wire RFwrite;
-    FSM F0(CLK, reset, IR, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, RFwrite);
+    wire [15:0] PC;
+    wire [15:0] MemOut;
+    wire [15:0] IR;
+    wire [15:0] MDR;
+    wire [3:0] op, regA, regB, regOut;
+    wire immed;
+    wire [15:0] dataA, dataB, dataW;
+    wire [15:0] dataB_immed;
+    wire [15:0] ADDR;
+    wire LDW_EN;
+    wire dataW_MDR;
+    wire [15:0] PC_IN;
+    wire BR_EN;
+
+    // FSM
+    FSM F0(CLK, reset, IR, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite, LDW_EN, dataW_MDR);
 
     // PC, program counter
-    wire [15:0] PC;
-    Reg PC(CLK, reset, PC_EN, PC_IN, PC);
+    Reg R_PC(CLK, reset, PC_EN, PC_IN, PC);
 
     // memory
-    wire [15:0] MemOut;
     memory m0(CLK, reset, MemRead, MemWrite, ADDR, dataB_immed, MemOut);
 
     // IR, instruction register
-    wire [15:0] IR;
-    Reg IR(CLK, reset, IR_EN, MemOut, IR);
+    Reg R_IR(CLK, reset, IR_EN, MemOut, IR);
 
     // MDR, memory data register
-    wire [15:0] MDR;
-    Reg MDR(CLK, reset, MDR_EN, MemOut, MDR);
+    Reg R_MDR(CLK, reset, MDR_EN, MemOut, MDR);
 
     // parser
-    wire [3:0] op, regA, regB, regOut;
-    wire immed;
     parser p0(CLK, reset, IR, immed, op, regA, regB, regOut);
 
     // Register File
-    wire [15:0] dataA, dataB, dataW;
     RegisterFile RF(CLK, reset, RFwrite, regA, regB, regOut, dataA, dataB, dataW);
 
     // immed selector MUX
-    wire [15:0] dataB_immed;
     MUX_2_to_1_SE M_immed(CLK, reset, dataB, IR[9:5], immed, dataB_immed);
 
     // ADDR selector MUX, selects between putting PC in memory and dataA in memory
-    wire [15:0] ADDR;
-    wire LDW_EN;
     MUX_2_to_1_SE M_ADDR(CLK, reset, PC, dataA, LDW_EN, ADDR);
 
     // dataW selector MUX, selects between putting PC in memory and dataA in memory
-    wire [15:0] dataW;
-    wire dataW_MDR;
     MUX_2_to_1_SE M_dataW(CLK, reset, ALUout, MDR, dataW_MDR, dataW);
 
     // PC selector MUX, selects between putting PC + 1 in PC and Immd5 * 16
-    wire [15:0] PC_IN;
-    wire BR_EN;
     MUX_2_to_1_SE M_PC(CLK, reset, PC + 1, IR[9:5] * 16, BR_EN, PC_IN);
 
     // ALU
-    wire [15:0] ALUout;
     ALU a0(CLK, reset, op, dataA, dataB_immed, ALUout);
 
 endmodule
@@ -110,11 +111,36 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
 
     input wire CLK;                                 // clock for cpu
     input wire reset;                               // reset, active-high
-    input wire [15:0] op;                            // opcode
+    input wire [15:0] opcode;                            // opcode
     output reg MemRead, MemWrite;                   // read and write signals for memory
     output reg IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite;// enable signals for PC, IR, MDR and RF
     output reg LDW_EN, dataW_MDR;                   // selectors for muxes to control input to memory ADDR 
                                                     // and input to dataW
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // Opcodes
+    /////////////////////////////////////////////////////////////////////////////////
+
+    parameter OP_ADD = 5'b0000;
+    parameter OP_SUB = 5'b0001;
+    parameter OP_OR = 5'b0010;
+    parameter OP_AND = 5'b0011;
+    parameter OP_XOR = 5'b0100;
+    parameter OP_SL = 5'b0101;
+    parameter OP_SR = 5'b0110;
+    parameter OP_ADDI = 5'b0111;
+    parameter OP_SUBI = 5'b1000;
+    parameter OP_ORI = 5'b1001;
+    parameter OP_ANDI = 5'b1010;
+    parameter OP_XORI = 5'b1011;
+    parameter OP_SLI = 5'b1100;
+    parameter OP_SRI = 5'b1101;
+    parameter OP_GT = 5'b1110;
+    parameter OP_LT = 5'b1111;
+    parameter OP_EQ = 5'b10000;
+    parameter OP_BR = 5'b10001;
+    parameter OP_STW = 5'b10010;
+    parameter OP_LDW = 5'b10011;
 
     /////////////////////////////////////////////////////////////////////////////////
     // State Initialization
@@ -122,15 +148,6 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
 
     reg [1:0] cur_state;
     reg [1:0] next_state;
-
-    always@(posedge CLK) begin
-        if (reset) begin
-            cur_state <= start;
-        end
-        else begin
-            cur_state <= next_state;
-        end
-    end
 
     /////////////////////////////////////////////////////////////////////////////////
     // State Table
@@ -242,7 +259,7 @@ module Reg(CLK, reset, EN, in, out);
     input wire CLK;                     // clock for cpu
     input wire reset;                   // reset, active-high
     input wire EN;                      // enable signals
-    input wire in;                      // input value
+    input wire [15:0] in;                      // input value
     output reg [15:0] out;              // current value of Reg
 
      /////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +267,7 @@ module Reg(CLK, reset, EN, in, out);
     /////////////////////////////////////////////////////////////////////////////////
 
     reg [15:0] R;
-    always@(posedge clk or posedge reset) begin
+    always@(posedge CLK or posedge reset) begin
         if (reset) begin        // on reset, set all registers to 0
             R <= 0;
         end
@@ -263,8 +280,8 @@ module Reg(CLK, reset, EN, in, out);
     // setting output
     /////////////////////////////////////////////////////////////////////////////////
 
-    always@(posedge clk) begin
-        out <= PC;
+    always@(posedge CLK) begin
+        out <= in;
     end
 
 endmodule
@@ -278,9 +295,12 @@ module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, dataA, dataB, dataW);
     input wire CLK;                     // clock for cpu
     input wire reset;                   // reset, active-high
     input wire RFwrite;                 // if 1, regW = dataW
-    input reg regA, regB, regW;        // the number of the register 
-    input reg [15:0] dataW;            // data to be put into regW
+    input wire [3:0] regA, regB, regW;        // the number of the register 
+    input wire [15:0] dataW;            // data to be put into regW
     output reg [15:0] dataA, dataB;    // data to be put into regA/B
+
+    integer i;
+
 
     /////////////////////////////////////////////////////////////////////////////////
     // Register Initialization
@@ -289,14 +309,10 @@ module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, dataA, dataB, dataW);
     // 0 - 7: r0 - r7
 
     reg [15:0]register[2:0];
-    always@(posedge clk or posedge reset) begin
+    always@(posedge CLK or posedge reset) begin
         if (reset) begin        // on reset, set all registers to 0
-            integer i;
-            integer j;
-            initial begin
-                for (i = 0; i < 8; i = i + 1) begin
-                        register[i] <= 0;
-                end
+            for (i = 0; i < 8; i = i + 1) begin
+                    register[i] <= 0;
             end
         end
     end
@@ -305,7 +321,7 @@ module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, dataA, dataB, dataW);
     // Retrieving dataA and dataB
     /////////////////////////////////////////////////////////////////////////////////
 
-    always@(posedge clk) begin
+    always@(posedge CLK) begin
         dataA <= register[regA];
         dataB <= register[regB];
     end
@@ -314,7 +330,7 @@ module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, dataA, dataB, dataW);
     // Setting regW
     /////////////////////////////////////////////////////////////////////////////////
 
-    always@(posedge clk) begin
+    always@(posedge CLK) begin
         if (RFwrite) begin
             register[regW] <= dataW;
         end
@@ -330,19 +346,63 @@ module parser(CLK, reset, opcode, immed, op, regA, regB, regOut);
 
     input wire CLK;             // clock for ALU
     input wire reset;           // reset, active-high
-    input reg[15:0] opcode;     // OPCODE in IR
+    input wire[15:0] opcode;     // OPCODE in IR
     output reg immed;           // 1 if we need to take immed value, 0 othersie
     output reg[3:0] op;         // op parameter for ALU
     output reg[3:0] regA;       // value of rA
-    output reg[r:0] regB;       // value of rB
-    output reg[r:0] regOut;     // value of rOut
+    output reg[3:0] regB;       // value of rB
+    output reg[3:0] regOut;     // value of rOut
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // Opcodes
+    /////////////////////////////////////////////////////////////////////////////////
+
+    parameter OP_ADD = 5'b0000;
+    parameter OP_SUB = 5'b0001;
+    parameter OP_OR = 5'b0010;
+    parameter OP_AND = 5'b0011;
+    parameter OP_XOR = 5'b0100;
+    parameter OP_SL = 5'b0101;
+    parameter OP_SR = 5'b0110;
+    parameter OP_ADDI = 5'b0111;
+    parameter OP_SUBI = 5'b1000;
+    parameter OP_ORI = 5'b1001;
+    parameter OP_ANDI = 5'b1010;
+    parameter OP_XORI = 5'b1011;
+    parameter OP_SLI = 5'b1100;
+    parameter OP_SRI = 5'b1101;
+    parameter OP_GT = 5'b1110;
+    parameter OP_LT = 5'b1111;
+    parameter OP_EQ = 5'b10000;
+    parameter OP_BR = 5'b10001;
+    parameter OP_STW = 5'b10010;
+    parameter OP_LDW = 5'b10011;
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // Operations
+    /////////////////////////////////////////////////////////////////////////////////
+
+    // operations go: out = (in_a) op (in_b)
+    // parameters to 
+
+    parameter IDLE = 0;
+    parameter ADD = 1;
+    parameter SUB = 2;
+    parameter OR = 3;
+    parameter AND = 4;
+    parameter XOR = 5;
+    parameter SL = 6;
+    parameter SR = 7;
+    parameter GT = 8;
+    parameter LT = 9;
+    parameter EQ = 10;
 
     /////////////////////////////////////////////////////////////////////////////////
     // Parsing Op-Code
     /////////////////////////////////////////////////////////////////////////////////
 
     always@(*)
-    begin:
+    begin
         op = 0;
         immed = 0;
         case(opcode[4:0])
@@ -468,9 +528,9 @@ module ALU(CLK, reset, op, in_a, in_b, out);
 
     input wire CLK;             // clock for ALU
     input wire reset;           // reset, active-high
-    input reg[3:0] op;          // which operation to do
-    input reg[15:0] in_a;       // value of register a for input to ALU
-    input reg[15:0] in_b;       // value of register b for input to ALU
+    input wire[3:0] op;          // which operation to do
+    input wire[15:0] in_a;       // value of register a for input to ALU
+    input wire[15:0] in_b;       // value of register b for input to ALU
     output reg[15:0] out;       // value of register for output of ALU
 
     /////////////////////////////////////////////////////////////////////////////////
