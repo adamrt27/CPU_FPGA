@@ -1,6 +1,4 @@
-module MUX_2_to_1_SE(CLK, reset, a, b, sel, out);
-
-    // 16 bit, 2-1 mux with sign extension to be used for immediates
+module mux(CLK, reset, a, b, sel, out);
     
     /////////////////////////////////////////////////////////////////////////////////
     // module I/O
@@ -14,8 +12,8 @@ module MUX_2_to_1_SE(CLK, reset, a, b, sel, out);
 
     always@(*) begin
         case(sel) 
-            0: out <= $signed(a);
-            1: out <= $signed(b);
+            0: out <= a;
+            1: out <= b;
         endcase
     end
 

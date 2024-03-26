@@ -15,7 +15,7 @@ module Reg(CLK, reset, EN, in, out);
     /////////////////////////////////////////////////////////////////////////////////
 
     reg [15:0] R;
-    always@(posedge CLK or posedge reset) begin
+    always@(*) begin
         if (reset) begin        // on reset, set all registers to 0
             R <= 0;
         end
@@ -29,7 +29,7 @@ module Reg(CLK, reset, EN, in, out);
     /////////////////////////////////////////////////////////////////////////////////
 
     always@(posedge CLK) begin
-        out <= in;
+        out <= R;
     end
 
 endmodule

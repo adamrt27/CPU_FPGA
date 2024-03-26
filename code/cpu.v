@@ -87,16 +87,16 @@ module cpu(CLK, reset);
     RegisterFile RF(CLK, reset, RFwrite, regA, regB, regOut, dataA, dataB, dataW);
 
     // immed selector MUX
-    MUX_2_to_1_SE M_immed(CLK, reset, dataB, IR[9:5], immed, dataB_immed);
+    mux M_immed(CLK, reset, dataB, IR[9:5], immed, dataB_immed);
 
     // ADDR selector MUX, selects between putting PC in memory and dataA in memory
-    MUX_2_to_1_SE M_ADDR(CLK, reset, PC, dataA, LDW_EN, ADDR);
+    mux M_ADDR(CLK, reset, PC, dataA, LDW_EN, ADDR);
 
     // dataW selector MUX, selects between putting PC in memory and dataA in memory
-    MUX_2_to_1_SE M_dataW(CLK, reset, ALUout, MDR, dataW_MDR, dataW);
+    mux M_dataW(CLK, reset, ALUout, MDR, dataW_MDR, dataW);
 
     // PC selector MUX, selects between putting PC + 1 in PC and Immd5 * 16
-    MUX_2_to_1_SE M_PC(CLK, reset, PC + 1, IR[9:5] * 16, BR_EN, PC_IN);
+    mux M_PC(CLK, reset, PC + 1, IR[9:5] * 16, BR_EN, PC_IN);
 
     // ALU
     ALU a0(CLK, reset, op, dataA, dataB_immed, ALUout);

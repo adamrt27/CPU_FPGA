@@ -27,33 +27,33 @@ r1
 !s85 0
 31
 Z8 !s108 1711489917.000000
-!s107 code/cpu.v|
-Z9 !s90 -reportprogress|300|code/cpu.v|
+Z9 !s107 code/cpu.v|
+Z10 !s90 -reportprogress|300|code/cpu.v|
 !i113 1
-Z10 tCvgOpt 0
+Z11 tCvgOpt 0
 n@a@l@u
 vcpu
-R1
+!s110 1711490488
 !i10b 1
-!s100 hihSZG]dFaHo;0K6T_HFo2
+!s100 DJ5X5iaEVoc91SmT8_jG^1
 R2
-I?dZ:>ge8SSB?KW_aBondI2
+IEONa;3GS:[J062NT[24]>2
 R3
 R0
-R4
+w1711490470
 R5
 R6
-!i122 10
+!i122 11
 L0 1 104
 R7
 r1
 !s85 0
 31
-R8
-Z11 !s107 code/cpu.v|
+!s108 1711490488.000000
 R9
-!i113 1
 R10
+!i113 1
+R11
 vFSM
 R1
 !i10b 1
@@ -72,10 +72,10 @@ r1
 !s85 0
 31
 R8
-R11
 R9
-!i113 1
 R10
+!i113 1
+R11
 n@f@s@m
 vmemory
 !s110 1711489446
@@ -98,7 +98,29 @@ r1
 !s107 code/memory.v|
 !s90 -reportprogress|300|code/memory.v|
 !i113 1
-R10
+R11
+vmux
+!s110 1711490556
+!i10b 1
+!s100 S:Wh1>2EV:fRBT3UR:UY^3
+R2
+IILM?YWIgWac3Eec>;8a>C0
+R3
+R0
+w1711490454
+8code/mux.v
+Fcode/mux.v
+!i122 12
+L0 1 20
+R7
+r1
+!s85 0
+31
+!s108 1711490556.000000
+!s107 code/mux.v|
+!s90 -reportprogress|300|code/mux.v|
+!i113 1
+R11
 vMUX_2_to_1_SE
 R1
 !i10b 1
@@ -117,76 +139,76 @@ r1
 !s85 0
 31
 R8
-R11
 R9
-!i113 1
 R10
+!i113 1
+R11
 n@m@u@x_2_to_1_@s@e
 vparser
-R1
+!s110 1711490695
 !i10b 1
-!s100 =<5cHd?`Xzfh_Nj@SAo7M2
+!s100 HbXaao8O=9Q4LV<BGX42:2
 R2
-I`dFAYGGOG`[a8^o4_Fo=K3
+I2E=I;UOA1cHP<PORKbHg;3
 R3
 R0
-R4
-R5
-R6
-!i122 10
-L0 341 157
+w1711490111
+8code/parser.v
+Fcode/parser.v
+!i122 14
+L0 1 157
 R7
 r1
 !s85 0
 31
-R8
-R11
-R9
+!s108 1711490695.000000
+!s107 code/parser.v|
+!s90 -reportprogress|300|code/parser.v|
 !i113 1
-R10
+R11
 vReg
-R1
+!s110 1711491170
 !i10b 1
-!s100 ?HX^Q@QQSnkDm9TA7B7Sn2
+!s100 ]@KX2D[WZnJQCoa7j@6XB2
 R2
-I@Z2IS>j4fde8ek>1c]2R71
+I?c6`MH87i;?Gim7iTTlZ33
 R3
 R0
-R4
-R5
-R6
-!i122 10
-L0 253 35
+w1711491166
+8code/Reg.v
+Fcode/Reg.v
+!i122 23
+L0 1 35
 R7
 r1
 !s85 0
 31
-R8
-R11
-R9
+!s108 1711491170.000000
+!s107 code/Reg.v|
+!s90 -reportprogress|300|code/Reg.v|
 !i113 1
-R10
+R11
 n@reg
 vRegisterFile
-R1
+!s110 1711490904
 !i10b 1
-!s100 Yd?^?dhJe=j:cZ=oP9n7H0
+!s100 SBHmz@Oa1b@GbN_22[3K_0
 R2
-IAEPze08Qf9aSlY5@JlMz10
+IBe[UQJ<db2cAH^ac7inDa0
 R3
 R0
-R4
-R5
-R6
-!i122 10
-L0 289 51
+w1711490813
+8code/RegisterFile.v
+Fcode/RegisterFile.v
+!i122 17
+L0 1 51
 R7
 r1
 !s85 0
 31
-R8
-R11
-R9
+!s108 1711490903.000000
+!s107 code/RegisterFile.v|
+!s90 -reportprogress|300|code/RegisterFile.v|
 !i113 1
-R10
+R11
 n@register@file

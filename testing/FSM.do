@@ -1,6 +1,6 @@
 vlib work
 
-vlog cpu.v
+vlog code/FSM.v
 
 #load simulation using mux as the top level simulation module
 vsim FSM

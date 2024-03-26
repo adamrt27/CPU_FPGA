@@ -1,6 +1,6 @@
 vlib work
 
-vlog cpu.v
+vlog code/parser.v
 
 #load simulation using mux as the top level simulation module
 vsim parser
@@ -12,10 +12,10 @@ add wave {/*}
 
 
 # set clock
-force {CLK} 0 0ns, 1 {5ns} -r 10 ns
+force {CLK} 0 0ms, 1 {5ms} -r 10 ms
 
 # TestCases: reset, check parsing of an ADDI command
 force {reset} 1 0 ms, 0 10 ms
-force {opcode} 16'b0010011111100111 0 ms
+force {opcode} 16'b0010011111100011 0 ms
 
 run 100 ms

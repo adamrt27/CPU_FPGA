@@ -9,9 +9,9 @@ module parser(CLK, reset, opcode, immed, op, regA, regB, regOut);
     input wire[15:0] opcode;     // OPCODE in IR
     output reg immed;           // 1 if we need to take immed value, 0 othersie
     output reg[3:0] op;         // op parameter for ALU
-    output reg[3:0] regA;       // value of rA
-    output reg[3:0] regB;       // value of rB
-    output reg[3:0] regOut;     // value of rOut
+    output reg[2:0] regA;       // value of rA
+    output reg[2:0] regB;       // value of rB
+    output reg[2:0] regOut;     // value of rOut
 
     /////////////////////////////////////////////////////////////////////////////////
     // Opcodes

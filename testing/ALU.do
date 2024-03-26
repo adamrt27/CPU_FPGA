@@ -1,6 +1,6 @@
 vlib work
 
-vlog code/cpu.v
+vlog code/ALU.v
 
 #load simulation using mux as the top level simulation module
 vsim ALU
