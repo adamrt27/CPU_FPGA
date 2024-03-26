@@ -1,0 +1,37 @@
+module Reg(CLK, reset, EN, in, out);
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // module I/O
+    /////////////////////////////////////////////////////////////////////////////////
+
+    input wire CLK;                     // clock for cpu
+    input wire reset;                   // reset, active-high
+    input wire EN;                      // enable signals
+    input wire [15:0] in;                      // input value
+    output reg [15:0] out;              // current value of Reg
+
+     /////////////////////////////////////////////////////////////////////////////////
+    // Register Initialization
+    /////////////////////////////////////////////////////////////////////////////////
+
+    reg [15:0] R;
+    always@(posedge CLK or posedge reset) begin
+        if (reset) begin        // on reset, set all registers to 0
+            R <= 0;
+        end
+        if (EN) begin
+            R <= in;
+        end
+    end
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // setting output
+    /////////////////////////////////////////////////////////////////////////////////
+
+    always@(posedge CLK) begin
+        out <= in;
+    end
+
+endmodule
+
+

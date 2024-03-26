@@ -17,7 +17,7 @@ module memory(CLK, reset, MemRead, MemWrite, ADDR, Data_in, Data_out);
 
 
     reg[15:0] mem[15:0];
-    always @(*) begin
+    always @(posedge CLK) begin
         if (reset) begin        // on reset, set all registers to 0
             for (i = 0; i < 15; i = i + 1) begin
                     mem[i] <= 0;

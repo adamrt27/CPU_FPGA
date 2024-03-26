@@ -1,0 +1,192 @@
+m255
+K4
+z2
+!s11f vlog 2020.1 2020.02, Feb 28 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dZ:/Desktop/Courses/Year 2 Winter/ECE243/Project/CPU_FPGA
+vALU
+Z1 !s110 1711489917
+!i10b 1
+!s100 1SWSaBNjIlZ0fEnkfF>BV1
+Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IYd;fiD>D16R06En05eg2f3
+Z3 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z4 w1711468031
+Z5 8code/cpu.v
+Z6 Fcode/cpu.v
+!i122 10
+L0 523 71
+Z7 OV;L;2020.1;71
+r1
+!s85 0
+31
+Z8 !s108 1711489917.000000
+!s107 code/cpu.v|
+Z9 !s90 -reportprogress|300|code/cpu.v|
+!i113 1
+Z10 tCvgOpt 0
+n@a@l@u
+vcpu
+R1
+!i10b 1
+!s100 hihSZG]dFaHo;0K6T_HFo2
+R2
+I?dZ:>ge8SSB?KW_aBondI2
+R3
+R0
+R4
+R5
+R6
+!i122 10
+L0 1 104
+R7
+r1
+!s85 0
+31
+R8
+Z11 !s107 code/cpu.v|
+R9
+!i113 1
+R10
+vFSM
+R1
+!i10b 1
+!s100 IF8ezJMX@DWUjalk;^5fk2
+R2
+ISBB3NBUP2ScWRfAVJ2YEE0
+R3
+R0
+R4
+R5
+R6
+!i122 10
+L0 106 146
+R7
+r1
+!s85 0
+31
+R8
+R11
+R9
+!i113 1
+R10
+n@f@s@m
+vmemory
+!s110 1711489446
+!i10b 1
+!s100 e;o;E:2UAOdzmF_lgeNdf2
+R2
+I:3Cm9UAiaSBBM5hzbK0kM3
+R3
+R0
+w1711489441
+8code/memory.v
+Fcode/memory.v
+!i122 3
+L0 3 34
+R7
+r1
+!s85 0
+31
+!s108 1711489446.000000
+!s107 code/memory.v|
+!s90 -reportprogress|300|code/memory.v|
+!i113 1
+R10
+vMUX_2_to_1_SE
+R1
+!i10b 1
+!s100 8iG@k9k9BH0:PkQj0CQjL3
+R2
+IJS[QaH_2W87NJeiUDfT1@3
+R3
+R0
+R4
+R5
+R6
+!i122 10
+L0 499 22
+R7
+r1
+!s85 0
+31
+R8
+R11
+R9
+!i113 1
+R10
+n@m@u@x_2_to_1_@s@e
+vparser
+R1
+!i10b 1
+!s100 =<5cHd?`Xzfh_Nj@SAo7M2
+R2
+I`dFAYGGOG`[a8^o4_Fo=K3
+R3
+R0
+R4
+R5
+R6
+!i122 10
+L0 341 157
+R7
+r1
+!s85 0
+31
+R8
+R11
+R9
+!i113 1
+R10
+vReg
+R1
+!i10b 1
+!s100 ?HX^Q@QQSnkDm9TA7B7Sn2
+R2
+I@Z2IS>j4fde8ek>1c]2R71
+R3
+R0
+R4
+R5
+R6
+!i122 10
+L0 253 35
+R7
+r1
+!s85 0
+31
+R8
+R11
+R9
+!i113 1
+R10
+n@reg
+vRegisterFile
+R1
+!i10b 1
+!s100 Yd?^?dhJe=j:cZ=oP9n7H0
+R2
+IAEPze08Qf9aSlY5@JlMz10
+R3
+R0
+R4
+R5
+R6
+!i122 10
+L0 289 51
+R7
+r1
+!s85 0
+31
+R8
+R11
+R9
+!i113 1
+R10
+n@register@file

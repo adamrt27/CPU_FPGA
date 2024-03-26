@@ -1,6 +1,6 @@
 vlib work
 
-vlog cpu.v
+vlog code/cpu.v
 
 #load simulation using mux as the top level simulation module
 vsim ALU
@@ -15,9 +15,9 @@ add wave {/*}
 force {CLK} 0 0ns, 1 {5ns} -r 10 ns
 
 # TestCases: reset, check 2 + 3
-force {reset} 1 0 ms, 0 10 ms
-force {op} 1 0 ms
-force {in_a} 2 0 ms
-force {in_b} 3 0 ms
+force {reset} 1 0 ns, 0 10 ns
+force {op} 10 0 ns
+force {in_a} 10 0 ns
+force {in_b} 11 0 ns
 
-run 100 ms
+run 100 ns
