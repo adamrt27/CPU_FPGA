@@ -20,7 +20,9 @@ module memory(CLK, reset, MemRead, MemWrite, ADDR, Data_in, Data_out);
     always @(posedge CLK) begin
         if (reset) begin        // on reset, set all registers to 0
             mem[0] = 16'b0010011111100111; // set first thing to be R1 = R1 + 1111 (binary)
-            mem[0] = 16'b0010011111100111; // R1 = 1111 + 1111 = 011110
+            mem[1] = 16'b0010011111100111; // R1 = 1111 + 1111 = 011110
+            mem[2] = 16'b0010010001101100; // R1 = 11110 << 11 = 11110000
+            mem[3] = 16'b0100100010000001; // R2 = R2 - R1 = 0 - 11110000
         end
         if (MemWrite) begin
             mem[ADDR] <= Data_in;
