@@ -41,23 +41,27 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
     // State Initialization
     /////////////////////////////////////////////////////////////////////////////////
 
-    reg [2:0] cur_state;
-    reg [2:0] next_state;
+    reg [3:0] cur_state;
+    reg [3:0] next_state;
 
     /////////////////////////////////////////////////////////////////////////////////
     // State Table
     /////////////////////////////////////////////////////////////////////////////////
 
     // state params
-    localparam idle = 0, fetch = 1, parse = 2, AR_ALU = 3, AR_ROut = 4, LDW_MDR = 5, LDW_ROut = 6, STW = 7, BR = 8;
+    localparam idle = 0, fetch_mem = 1, fetch_IR = 2, parse = 3, AR_ALU = 4, 
+                AR_ROut = 5, LDW_MDR = 6, LDW_ROut = 7, STW = 8, BR = 9;
 
     always@(*)
     begin: state_table
         case ( cur_state )
             idle: begin
-                if (!reset) next_state = fetch;
+                if (!reset) next_state = fetch_mem;
             end
-            fetch: begin // starting state, when reset
+            fetch_mem: begin // starting state, when reset
+                next_state = fetch_IR;
+            end
+            fetch_IR: begin
                 next_state = parse;
             end
             parse: begin // state to load in note to waveform
@@ -70,19 +74,19 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
                 next_state = AR_ROut;
             end
             AR_ROut: begin
-                next_state = fetch;
+                next_state = idle;
             end
             LDW_MDR: begin
                 next_state = LDW_ROut;
             end
             LDW_ROut: begin
-                next_state = fetch;
+                next_state = idle;
             end
             STW: begin
-                next_state = fetch;
+                next_state = idle;
             end
             BR: begin
-                next_state = fetch;
+                next_state = idle;
             end
         endcase
     end
@@ -105,9 +109,11 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
         dataW_MDR = 0;
 
         case (cur_state)
-          fetch: begin
+          fetch_mem: begin
             MemRead = 1;
             PC_EN = 1;
+          end
+          fetch_IR: begin
             IR_EN = 1;
           end
           AR_ROut: begin

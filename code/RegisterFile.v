@@ -20,11 +20,11 @@ module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, dataA, dataB, dataW);
 
     // 0 - 7: r0 - r7
 
-    reg [15:0]register[2:0];
-    always@(posedge CLK or posedge reset) begin
+    reg [15:0]register[7:0];
+    always@(posedge CLK or reset) begin
         if (reset) begin        // on reset, set all registers to 0
             for (i = 0; i < 8; i = i + 1) begin
-                    register[i] <= 0;
+                register[i] <= 16'b0;
             end
         end
     end

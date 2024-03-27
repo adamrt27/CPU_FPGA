@@ -1,8 +1,9 @@
+quit -sim
 # set the working dir, where all compiled verilog goes
 
 vlib work
 
-vlog code/cpu.v code/memory.v code/ZE.v code/parser.v code/ALU.v code/FSM.v code/Reg.v code/RegisterFile.v
+vlog code/cpu.v code/memory.v code/parser.v code/ALU.v code/FSM.v code/Reg.v code/RegisterFile.v
 
 #load simulation using mux as the top level simulation module
 vsim cpu

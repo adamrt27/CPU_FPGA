@@ -10,75 +10,75 @@ z2
 cModel Technology
 Z0 dZ:/Desktop/Courses/Year 2 Winter/ECE243/Project/CPU_FPGA
 vALU
-Z1 !s110 1711489917
+Z1 !s110 1711561901
 !i10b 1
-!s100 1SWSaBNjIlZ0fEnkfF>BV1
+!s100 P7bR?W1TiD1Pe1QRM3WZh2
 Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
-IYd;fiD>D16R06En05eg2f3
+IB9cmefIViTic>Fe8B:R090
 Z3 VDg1SIo80bB@j0V0VzS_@n1
 R0
-Z4 w1711468031
-Z5 8code/cpu.v
-Z6 Fcode/cpu.v
-!i122 10
-L0 523 71
-Z7 OV;L;2020.1;71
+w1711490071
+8code/ALU.v
+Fcode/ALU.v
+!i122 81
+L0 1 71
+Z4 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z8 !s108 1711489917.000000
-Z9 !s107 code/cpu.v|
-Z10 !s90 -reportprogress|300|code/cpu.v|
+Z5 !s108 1711561900.000000
+!s107 code/RegisterFile.v|code/Reg.v|code/FSM.v|code/ALU.v|code/parser.v|code/memory.v|code/cpu.v|
+Z6 !s90 -reportprogress|300|code/cpu.v|code/memory.v|code/parser.v|code/ALU.v|code/FSM.v|code/Reg.v|code/RegisterFile.v|
 !i113 1
-Z11 tCvgOpt 0
+Z7 tCvgOpt 0
 n@a@l@u
 vcpu
-Z12 !s110 1711556581
+R1
 !i10b 1
-!s100 [[z8L:2:LS09`F:o<hma31
+!s100 :?oKlK81=3e3]UY7iQHJn3
 R2
-IB9=JZ^mEA@FagZF2P=oP`1
+IHDE3lm0R[YG0E2P]3H0hN1
 R3
 R0
-w1711556485
-R5
-R6
-!i122 34
-L0 1 108
-R7
+Z8 w1711560619
+Z9 8code/cpu.v
+Z10 Fcode/cpu.v
+!i122 81
+L0 1 109
+R4
 r1
 !s85 0
 31
-Z13 !s108 1711556581.000000
-!s107 code/memory.v|code/cpu.v|
-Z14 !s90 -reportprogress|300|code/cpu.v|code/memory.v|
+R5
+Z11 !s107 code/RegisterFile.v|code/Reg.v|code/FSM.v|code/ALU.v|code/parser.v|code/memory.v|code/cpu.v|
+R6
 !i113 1
-R11
+R7
 vFSM
-!s110 1711556551
+R1
 !i10b 1
-!s100 U;^mdhZ@C0?XhInGnOKVK3
+!s100 nN[ZbIA1h>BDfUD?CYKg@1
 R2
-IghC4Y<XQQ>3gFB^JBCE?D3
+IQV^=:HBGg7GOfCH5OfmRM2
 R3
 R0
-w1711555954
+w1711560836
 8code/FSM.v
 Fcode/FSM.v
-!i122 33
-L0 1 149
-R7
+!i122 81
+L0 1 155
+R4
 r1
 !s85 0
 31
-!s108 1711556550.000000
-!s107 code/FSM.v|
-!s90 -reportprogress|300|code/FSM.v|
-!i113 1
+R5
 R11
+R6
+!i113 1
+R7
 n@f@s@m
 vmemory
-R12
+R1
 !i10b 1
 !s100 l@:PbIP8LcSYCaOW2D`TP3
 R2
@@ -88,19 +88,19 @@ R0
 w1711556164
 8code/memory.v
 Fcode/memory.v
-!i122 34
+!i122 81
 L0 3 34
-R7
+R4
 r1
 !s85 0
 31
-R13
-Z15 !s107 code/memory.v|code/cpu.v|
-R14
-!i113 1
+R5
 R11
+R6
+!i113 1
+R7
 vmux
-!s110 1711490556
+!s110 1711560151
 !i10b 1
 !s100 S:Wh1>2EV:fRBT3UR:UY^3
 R2
@@ -110,105 +110,128 @@ R0
 w1711490454
 8code/mux.v
 Fcode/mux.v
-!i122 12
+!i122 58
 L0 1 20
-R7
+R4
 r1
 !s85 0
 31
-!s108 1711490556.000000
-!s107 code/mux.v|
-!s90 -reportprogress|300|code/mux.v|
+!s108 1711560151.000000
+!s107 code/ZE.v|#|code/parser.v|code/mux.v|code/memory.v|code/cpu.v|code/RegisterFile.v|code/Reg.v|code/IO.v|code/FSM.v|code/ALU.v|
+!s90 -reportprogress|300|code/ALU.v|code/FSM.v|code/IO.v|code/Reg.v|code/RegisterFile.v|code/cpu.v|code/memory.v|code/mux.v|code/parser.v|#|code/cpu.v|code/memory.v|code/ZE.v|code/parser.v|code/ALU.v|code/FSM.v|code/Reg.v|code/RegisterFile.v|
 !i113 1
-R11
+R7
 vMUX_2_to_1_SE
-R1
+!s110 1711489917
 !i10b 1
 !s100 8iG@k9k9BH0:PkQj0CQjL3
 R2
 IJS[QaH_2W87NJeiUDfT1@3
 R3
 R0
-R4
-R5
-R6
+w1711468031
+R9
+R10
 !i122 10
 L0 499 22
-R7
+R4
 r1
 !s85 0
 31
+!s108 1711489917.000000
+!s107 code/cpu.v|
+!s90 -reportprogress|300|code/cpu.v|
+!i113 1
+R7
+n@m@u@x_2_to_1_@s@e
+vparser
+R1
+!i10b 1
+!s100 Y5a>DFlRfBF_XYGngJnLU1
+R2
+ICRnLGom0fR10<CzYjV^hQ3
+R3
+R0
+w1711490768
+8code/parser.v
+Fcode/parser.v
+!i122 81
+L0 1 157
+R4
+r1
+!s85 0
+31
+R5
+R11
+R6
+!i113 1
+R7
+vReg
+R1
+!i10b 1
+!s100 EWWG^0PXj:O2R86a@3lME3
+R2
+I`Q=?CML[1de4nc82VKoIb2
+R3
+R0
+w1711557732
+8code/Reg.v
+Fcode/Reg.v
+!i122 81
+L0 1 26
+R4
+r1
+!s85 0
+31
+R5
+R11
+R6
+!i113 1
+R7
+n@reg
+vRegisterFile
+R1
+!i10b 1
+!s100 9l8>2DV_=SN852N=B`;Az0
+R2
+Ifl9UhFh1?fM`WoH1BCEKn0
+R3
+R0
+w1711561887
+8code/RegisterFile.v
+Fcode/RegisterFile.v
+!i122 81
+L0 1 51
+R4
+r1
+!s85 0
+31
+R5
+R11
+R6
+!i113 1
+R7
+n@register@file
+vZE
+R1
+!i10b 1
+!s100 2OnQmXSLP[Bo=M231IH`M3
+R2
+IEk0WN[2alEl4oTWfoDnJX0
+R3
+R0
 R8
 R9
 R10
-!i113 1
-R11
-n@m@u@x_2_to_1_@s@e
-vparser
-!s110 1711490695
-!i10b 1
-!s100 HbXaao8O=9Q4LV<BGX42:2
-R2
-I2E=I;UOA1cHP<PORKbHg;3
-R3
-R0
-w1711490111
-8code/parser.v
-Fcode/parser.v
-!i122 14
-L0 1 157
-R7
+!i122 81
+L0 111 10
+R4
 r1
 !s85 0
 31
-!s108 1711490695.000000
-!s107 code/parser.v|
-!s90 -reportprogress|300|code/parser.v|
-!i113 1
+R5
 R11
-vReg
-!s110 1711491170
-!i10b 1
-!s100 ]@KX2D[WZnJQCoa7j@6XB2
-R2
-I?c6`MH87i;?Gim7iTTlZ33
-R3
-R0
-w1711491166
-8code/Reg.v
-Fcode/Reg.v
-!i122 23
-L0 1 35
+R6
+!i113 1
 R7
-r1
-!s85 0
-31
-!s108 1711491170.000000
-!s107 code/Reg.v|
-!s90 -reportprogress|300|code/Reg.v|
-!i113 1
-R11
-n@reg
-vRegisterFile
-!s110 1711490904
-!i10b 1
-!s100 SBHmz@Oa1b@GbN_22[3K_0
-R2
-IBe[UQJ<db2cAH^ac7inDa0
-R3
-R0
-w1711490813
-8code/RegisterFile.v
-Fcode/RegisterFile.v
-!i122 17
-L0 1 51
-R7
-r1
-!s85 0
-31
-!s108 1711490903.000000
-!s107 code/RegisterFile.v|
-!s90 -reportprogress|300|code/RegisterFile.v|
-!i113 1
-R11
-n@register@file
+n@z@e

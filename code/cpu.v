@@ -55,7 +55,8 @@ module cpu(CLK, reset);
     wire [15:0] MemOut;
     wire [15:0] IR;
     wire [15:0] MDR;
-    wire [3:0] op, regA, regB, regOut;
+    wire [3:0] op;
+    wire [2:0] regA, regB, regOut;
     wire immed;
     wire [15:0] dataA, dataB, dataW;
     wire [15:0] dataB_immed;
@@ -107,5 +108,13 @@ module cpu(CLK, reset);
 
 endmodule
 
+module ZE(in, out);
 
+    // Module to extend Immd5 zeros
 
+    input [4:0] in;
+    output [15:0] out;
+
+    assign out = {11'b00000000000, in};
+    
+endmodule

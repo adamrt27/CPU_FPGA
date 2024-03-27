@@ -14,22 +14,13 @@ module Reg(CLK, reset, EN, in, out);
     // Register Initialization
     /////////////////////////////////////////////////////////////////////////////////
 
-    reg [15:0] R;
-    always@(*) begin
+    always@(posedge CLK) begin
         if (reset) begin        // on reset, set all registers to 0
-            R <= 0;
+            out <= 0;
         end
         if (EN) begin
-            R <= in;
+            out <= in;
         end
-    end
-
-    /////////////////////////////////////////////////////////////////////////////////
-    // setting output
-    /////////////////////////////////////////////////////////////////////////////////
-
-    always@(posedge CLK) begin
-        out <= R;
     end
 
 endmodule
