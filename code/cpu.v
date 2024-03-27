@@ -64,6 +64,7 @@ module cpu(CLK, reset);
     wire dataW_MDR;
     wire [15:0] PC_IN;
     wire BR_EN;
+    wire [15:0] ImmdZE;
 
     // FSM
     FSM F0(CLK, reset, IR, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite, LDW_EN, dataW_MDR);
@@ -87,7 +88,7 @@ module cpu(CLK, reset);
     RegisterFile RF(CLK, reset, RFwrite, regA, regB, regOut, dataA, dataB, dataW);
 
     // immed selector MUX
-    mux M_immed(CLK, reset, dataB, IR[9:5], immed, dataB_immed);
+    mux M_immed(CLK, reset, dataB, ImmdZE, immed, dataB_immed);
 
     // ADDR selector MUX, selects between putting PC in memory and dataA in memory
     mux M_ADDR(CLK, reset, PC, dataA, LDW_EN, ADDR);
@@ -100,6 +101,9 @@ module cpu(CLK, reset);
 
     // ALU
     ALU a0(CLK, reset, op, dataA, dataB_immed, ALUout);
+
+    // Zero extend for Immd5
+    ZE z0(IR[9:5], ImmdZE);
 
 endmodule
 

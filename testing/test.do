@@ -2,7 +2,7 @@
 
 vlib work
 
-vlog cpu.v memory.v
+vlog code/cpu.v code/memory.v code/ZE.v code/parser.v code/ALU.v code/FSM.v code/Reg.v code/RegisterFile.v
 
 #load simulation using mux as the top level simulation module
 vsim cpu
@@ -14,7 +14,7 @@ add wave {/*}
 
 
 # set clock
-force {CLK} 0 0ns, 1 {5ns} -r 10 ns
+force {CLK} 0 0ms, 1 {5ms} -r 10 ms
 
 # TestCases: reset, play middle c (c4), square
 force {reset} 1 0 ms, 0 10 ms

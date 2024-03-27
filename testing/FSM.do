@@ -12,7 +12,7 @@ add wave {/*}
 
 
 # set clock
-force {CLK} 0 0ns, 1 {5ns} -r 10 ns
+force {CLK} 0 0ms, 1 {5ms} -r 10 ms
 
 # TestCases: reset, check FSM for ADDI
 force {reset} 1 0 ms, 0 10 ms

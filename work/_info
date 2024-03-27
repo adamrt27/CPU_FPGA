@@ -33,70 +33,70 @@ Z10 !s90 -reportprogress|300|code/cpu.v|
 Z11 tCvgOpt 0
 n@a@l@u
 vcpu
-!s110 1711490488
+Z12 !s110 1711556581
 !i10b 1
-!s100 DJ5X5iaEVoc91SmT8_jG^1
+!s100 [[z8L:2:LS09`F:o<hma31
 R2
-IEONa;3GS:[J062NT[24]>2
+IB9=JZ^mEA@FagZF2P=oP`1
 R3
 R0
-w1711490470
+w1711556485
 R5
 R6
-!i122 11
-L0 1 104
+!i122 34
+L0 1 108
 R7
 r1
 !s85 0
 31
-!s108 1711490488.000000
-R9
-R10
+Z13 !s108 1711556581.000000
+!s107 code/memory.v|code/cpu.v|
+Z14 !s90 -reportprogress|300|code/cpu.v|code/memory.v|
 !i113 1
 R11
 vFSM
-R1
+!s110 1711556551
 !i10b 1
-!s100 IF8ezJMX@DWUjalk;^5fk2
+!s100 U;^mdhZ@C0?XhInGnOKVK3
 R2
-ISBB3NBUP2ScWRfAVJ2YEE0
+IghC4Y<XQQ>3gFB^JBCE?D3
 R3
 R0
-R4
-R5
-R6
-!i122 10
-L0 106 146
+w1711555954
+8code/FSM.v
+Fcode/FSM.v
+!i122 33
+L0 1 149
 R7
 r1
 !s85 0
 31
-R8
-R9
-R10
+!s108 1711556550.000000
+!s107 code/FSM.v|
+!s90 -reportprogress|300|code/FSM.v|
 !i113 1
 R11
 n@f@s@m
 vmemory
-!s110 1711489446
+R12
 !i10b 1
-!s100 e;o;E:2UAOdzmF_lgeNdf2
+!s100 l@:PbIP8LcSYCaOW2D`TP3
 R2
-I:3Cm9UAiaSBBM5hzbK0kM3
+InNNDmF3f6m?aKWIjcSPPC3
 R3
 R0
-w1711489441
+w1711556164
 8code/memory.v
 Fcode/memory.v
-!i122 3
+!i122 34
 L0 3 34
 R7
 r1
 !s85 0
 31
-!s108 1711489446.000000
-!s107 code/memory.v|
-!s90 -reportprogress|300|code/memory.v|
+R13
+Z15 !s107 code/memory.v|code/cpu.v|
+R14
 !i113 1
 R11
 vmux
