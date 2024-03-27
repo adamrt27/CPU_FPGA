@@ -10,7 +10,7 @@ z2
 cModel Technology
 Z0 dZ:/Desktop/Courses/Year 2 Winter/ECE243/Project/CPU_FPGA
 vALU
-Z1 !s110 1711564836
+Z1 !s110 1711565989
 !i10b 1
 !s100 P7bR?W1TiD1Pe1QRM3WZh2
 Z2 !s11b Dg1SIo80bB@j0V0VzS_@n1
@@ -20,13 +20,13 @@ R0
 w1711490071
 8code/ALU.v
 Fcode/ALU.v
-!i122 90
+!i122 95
 L0 1 71
 Z4 OV;L;2020.1;71
 r1
 !s85 0
 31
-Z5 !s108 1711564836.000000
+Z5 !s108 1711565989.000000
 !s107 code/RegisterFile.v|code/Reg.v|code/FSM.v|code/ALU.v|code/parser.v|code/memory.v|code/cpu.v|
 Z6 !s90 -reportprogress|300|code/cpu.v|code/memory.v|code/parser.v|code/ALU.v|code/FSM.v|code/Reg.v|code/RegisterFile.v|
 !i113 1
@@ -43,7 +43,7 @@ R0
 Z8 w1711560619
 Z9 8code/cpu.v
 Z10 Fcode/cpu.v
-!i122 90
+!i122 95
 L0 1 109
 R4
 r1
@@ -65,7 +65,7 @@ R0
 w1711560836
 8code/FSM.v
 Fcode/FSM.v
-!i122 90
+!i122 95
 L0 1 155
 R4
 r1
@@ -80,16 +80,16 @@ n@f@s@m
 vmemory
 R1
 !i10b 1
-!s100 ng6b5En3fNAc?ek_=@;kG3
+!s100 UoSI64W6JfiG_mQ2F[3<O2
 R2
-I3Dgm>m<9@OXb2SkHl`DW32
+I5][[G4XKT9a9B<T8Jmf7m3
 R3
 R0
-w1711564831
+w1711565985
 8code/memory.v
 Fcode/memory.v
-!i122 90
-L0 3 33
+!i122 95
+L0 3 38
 R4
 r1
 !s85 0
@@ -155,7 +155,7 @@ R0
 w1711490768
 8code/parser.v
 Fcode/parser.v
-!i122 90
+!i122 95
 L0 1 157
 R4
 r1
@@ -177,7 +177,7 @@ R0
 w1711557732
 8code/Reg.v
 Fcode/Reg.v
-!i122 90
+!i122 95
 L0 1 26
 R4
 r1
@@ -200,7 +200,7 @@ R0
 w1711561887
 8code/RegisterFile.v
 Fcode/RegisterFile.v
-!i122 90
+!i122 95
 L0 1 51
 R4
 r1
@@ -223,7 +223,7 @@ R0
 R8
 R9
 R10
-!i122 90
+!i122 95
 L0 111 10
 R4
 r1

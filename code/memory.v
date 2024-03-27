@@ -23,6 +23,11 @@ module memory(CLK, reset, MemRead, MemWrite, ADDR, Data_in, Data_out);
             mem[1] = 16'b0010011111100111; // R1 = 1111 + 1111 = 011110
             mem[2] = 16'b0010010001101100; // R1 = 11110 << 11 = 11110000
             mem[3] = 16'b0100100010000001; // R2 = R2 - R1 = 0 - 11110000
+
+            mem[4] = 16'b0110111111000111;// R3 = R3 + 30 = 0 + 30 = 30
+            mem[30] = 16'd69;  // set Mem[30] = 69
+            mem[5] = 16'b1000110000010011;//R4 = Mem[R3 (== 30)]
+            mem[6] = 16'b1001000000001010;// R4 = R4 + 0 = R4 // just to see r4 value
         end
         if (MemWrite) begin
             mem[ADDR] <= Data_in;
