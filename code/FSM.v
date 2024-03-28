@@ -50,7 +50,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
 
     // state params
     localparam idle = 0, fetch_mem = 1, fetch_IR = 2, parse = 3, AR_ALU = 4, 
-                AR_ROut = 5, LDW_MDR = 6, LDW_ROut = 7, STW = 8, BR = 9;
+                AR_ROut = 5, LDW_Mem = 6, LDW_MDR = 7, LDW_ROut = 8, STW = 9, BR = 10;
 
     always@(*)
     begin: state_table
@@ -66,7 +66,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
             end
             parse: begin // state to load in note to waveform
                 if (opcode[4:0] <= OP_EQ) next_state = AR_ALU; // if op < 8, it is arithmetic
-                else if (opcode[4:0] == OP_LDW) next_state = LDW_MDR;        // if op == 8,
+                else if (opcode[4:0] == OP_LDW) next_state = LDW_Mem;        // if op == 8,
                 else if (opcode[4:0] == OP_STW) next_state = STW;
                 else if (opcode[4:0] == OP_BR) next_state = BR;
             end
@@ -75,6 +75,9 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
             end
             AR_ROut: begin
                 next_state = idle;
+            end
+            LDW_Mem: begin
+                next_state = LDW_MDR;
             end
             LDW_MDR: begin
                 next_state = LDW_ROut;
@@ -119,10 +122,12 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
           AR_ROut: begin
             RFwrite = 1;
           end
-          LDW_MDR: begin
+          LDW_Mem: begin
             LDW_EN = 1;
-            MDR_EN = 1;
             MemRead = 1;
+          end
+          LDW_MDR: begin
+            MDR_EN = 1;
           end
           LDW_ROut: begin
             dataW_MDR = 1;
