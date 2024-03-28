@@ -98,7 +98,7 @@ module cpu(CLK, reset);
     mux M_dataW(CLK, reset, ALUout, MDR, dataW_MDR, dataW);
 
     // PC selector MUX, selects between putting PC + 1 in PC and Immd5 * 16
-    mux M_PC(CLK, reset, PC + 1, IR[9:5] * 16, BR_EN, PC_IN);
+    mux M_PC(CLK, reset, PC + 1, ImmdZE, BR_EN, PC_IN);
 
     // ALU
     ALU a0(CLK, reset, op, dataA, dataB_immed, ALUout);

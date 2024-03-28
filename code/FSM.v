@@ -78,7 +78,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
             end
             LDW_Mem: begin
                 next_state = LDW_MDR;
-            end
+            end 
             LDW_MDR: begin
                 next_state = LDW_ROut;
             end
@@ -139,6 +139,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
           end
           BR: begin
             BR_EN = 1;
+            PC_EN = 1;
           end
         endcase
     end // enable_signals

@@ -26,8 +26,11 @@ module memory(CLK, reset, MemRead, MemWrite, ADDR, Data_in, Data_out);
 
             mem[4] = 16'b0110111111000111;// R3 = R3 + 30 = 0 + 30 = 30
             mem[30] = 16'd69;  // set Mem[30] = 69
-            mem[5] = 16'b1000110000010011;//R4 = Mem[R3 (== 30)]
-            mem[6] = 16'b1001000000001010;// R4 = R4 + 0 = R4 // just to see r4 value
+            mem[5] = 16'b1000110000010011; //R4 = Mem[R3 (== 30)]
+            mem[6] = 16'b1001000000001010; // R4 = R4 + 0 = R4 // just to see r4 value
+
+            // add iloop: BR 7
+            mem[7] = 16'b00000000011110001; 
         end
         if (MemWrite) begin
             mem[ADDR] <= Data_in;
