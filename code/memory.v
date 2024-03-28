@@ -31,6 +31,22 @@ module memory(CLK, reset, MemRead, MemWrite, ADDR, Data_in, Data_out);
 
             // add iloop: BR 7
             mem[7] = 16'b00000000011110001; 
+
+            /*
+            Nios II equiv:
+            main:
+                addi r1, r1, 0b1111
+                addi r1, r1, 0b1111
+                sub r2, r2, r1
+                addi r3, r3, data
+                ldw r4, (r3)
+                addi r4, r4, 0
+            
+            iloop:
+                br iloop
+
+            data: .word 69
+            */
         end
         if (MemWrite) begin
             mem[ADDR] <= Data_in;
