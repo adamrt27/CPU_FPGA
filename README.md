@@ -9,7 +9,7 @@ This allows the processor to run your code. Hwoever, to check if your code is ru
 ## Assembly
 Description of the assembly language used for this processor. It is similar to NIOS II.
 ### Arithmetic
-Arithmetic instructions follow this format: **_XXX Rout Ra Rb_**
+Arithmetic instructions follow this format: **_XXX Rout Ra Rb_**.
 You can do the following operations:
 * ADD
 * SUB
@@ -31,14 +31,14 @@ You can do the following operations:
 * SRI (shift right logic)
 
 ### Comparison
-Comparison instructions follow this format: **_XXX Rout Ra Rb_**
+Comparison instructions follow this format: **_XXX Rout Ra Rb_**.
 You can do the following operations:
 * GT (Ra > Rb)
 * LT (Ra < Rb)
 * EQ (Ra == Rb)
 
 ## Branch
-Branch instructions follow this format: **_XXX Immed5_**
+Branch instructions follow this format: **_XXX Immed5_**.
 You can do the following operations:
 * BR (normal branch)
 * BRZ (branch if Z flag is 1, meaning last operations in ALU was equal to 0)
