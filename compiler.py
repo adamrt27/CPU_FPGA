@@ -144,47 +144,9 @@ def parse_stw(instr):
     ra = dec_to_bin(int(temp[2][2:3]))[-3:]
     return "000" + ra + rb + "00" + opcode
 
-# Compute sum of 1 to 30
-# write the below printed code into the form
-# mem[i] = parse_instr("INSTRUCTION")
-# where i is the memory address
-# then run the code
-code = ["ADDI R1 R1 1", "ADDI R3 R3 29", "SUB R2 R2 R2", "SUB R4 R4 R4", "ADD R2 R1 R2", "ADD R4 R4 R2", "GT R5 R2 R3", "BRZ 4", "BR 8"]
+# open file and parse each line
+file = open("assembly.txt", "r")
 i = 0
-for line in code:
+for line in file:
     print("mem[" + str(i) + "] = 16'b" + parse_instr(line) + ";")
     i += 1
-
-res = 0
-for i in range(31):
-    res += i
-print(res)
-
-# print("mem[" + i + "]" + parse_instr("ADDI R1 R1 1")) # set r1 to 1
-# print(parse_instr("ADDI R3 R3 29")) # set r3 to 29
-# print(parse_instr("SUB R2 R2 R2")) # set r2 to 0
-# print(parse_instr("SUB R4 R4 R4")) # set r4 to 0
-
-# print(parse_instr("ADD R2 R1 R2")) # store current value of loop in r2
-# print(parse_instr("ADD R4 R4 R2")) # add r2 to r4
-# print(parse_instr("GT R5 R2 R3")) # check if current counter value less than 30
-# print(parse_instr("BRZ 4")) # loops back to start of loop if current counter value less than 30
-
-# print(parse_instr("BR 8")) # iloop
-
-
-'''
-.global _start
-_start:
-   movi r1, 1 /* put 1 in r1 */
-   movi r3, 29
-   movi r2, 0
-   movi r12, 0
-   
-LOOP:
-   add r2, r1, r2 /* store current value of loop in r2 */
-   add r12, r12, r2 /* add r2 to r12 */
-   ble r2, r3, LOOP /* loops back to start of loop if current counter value less than 30 */
-   
-done: br done 
-'''
