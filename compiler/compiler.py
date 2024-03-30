@@ -145,8 +145,20 @@ def parse_stw(instr):
     return "000" + ra + rb + "00" + opcode
 
 # open file and parse each line
-file = open("assembly.txt", "r")
+file = open("assembly2.txt", "r")
 i = 0
+data = False
+code = False
 for line in file:
-    print("mem[" + str(i) + "] = 16'b" + parse_instr(line) + ";")
+    if (line == "data:\n"):
+        data = True
+        continue
+    if line == "code:\n":
+        data = False
+        code = True
+        continue
+    if data:
+        print("mem[" + str(i) + "] = 16'b" + dec_to_bin(int(line)) + ";")
+    if code:
+        print("mem[" + str(i) + "] = 16'b" + parse_instr(line) + ";")
     i += 1
