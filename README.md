@@ -37,8 +37,13 @@ You can do the following operations:
 * LT (Ra < Rb)
 * EQ (Ra == Rb)
 
-## Branch
+### Branch
 Branch instructions follow this format: **_XXX Immed5_**.
 You can do the following operations:
 * BR (normal branch)
 * BRZ (branch if Z flag is 1, meaning last operations in ALU was equal to 0)
+
+## RTL Desgin
+![Datapath](https://github.com/adamrt27/CPU_FPGA/blob/main/Project-7.jpg)
+![Finite State Machine](https://github.com/adamrt27/CPU_FPGA/blob/main/Project-8.jpg)
+![Opcodes](https://github.com/adamrt27/CPU_FPGA/blob/main/Project-9.jpg)
