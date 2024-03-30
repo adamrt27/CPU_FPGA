@@ -32,6 +32,7 @@ module cpu(CLK, reset);
     parameter OP_BR = 5'b10001;
     parameter OP_STW = 5'b10010;
     parameter OP_LDW = 5'b10011;
+    parameter OP_BRZ = 5'b10100;
 
     /////////////////////////////////////////////////////////////////////////////////
     // Flags
@@ -66,9 +67,10 @@ module cpu(CLK, reset);
     wire [15:0] PC_IN;
     wire BR_EN;
     wire [15:0] ImmdZE;
+    wire flag_z;
 
     // FSM
-    FSM F0(CLK, reset, IR, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite, LDW_EN, dataW_MDR);
+    FSM F0(CLK, reset, IR, flag_z, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite, LDW_EN, dataW_MDR);
 
     // PC, program counter
     Reg R_PC(CLK, reset, PC_EN, PC_IN, PC);
@@ -101,7 +103,7 @@ module cpu(CLK, reset);
     mux M_PC(CLK, reset, PC + 1, ImmdZE, BR_EN, PC_IN);
 
     // ALU
-    ALU a0(CLK, reset, op, dataA, dataB_immed, ALUout);
+    ALU a0(CLK, reset, op, dataA, dataB_immed, ALUout, flag_z);
 
     // Zero extend for Immd5
     ZE z0(IR[9:5], ImmdZE);

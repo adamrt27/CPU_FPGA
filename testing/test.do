@@ -19,4 +19,4 @@ force {CLK} 0 0ms, 1 {5ms} -r 10 ms
 
 # TestCases: reset, play middle c (c4), square
 force {reset} 1 0 ms, 0 10 ms
-run 700 ms
+run 1200 ms

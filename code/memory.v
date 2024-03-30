@@ -25,12 +25,19 @@ module memory(CLK, reset, MemRead, MemWrite, ADDR, Data_in, Data_out);
             mem[3] = 16'b0100100010000001; // R2 = R2 - R1 = 0 - 11110000
 
             mem[4] = 16'b0110111111000111;// R3 = R3 + 30 = 0 + 30 = 30
-            mem[30] = 16'd69;  // set Mem[30] = 69
-            mem[5] = 16'b1000110000010011; //R4 = Mem[R3 (== 30)]
-            mem[6] = 16'b1001000000001010; // R4 = R4 + 0 = R4 // just to see r4 value
+            mem[5] = 16'b1111111111100111;     // r7 = r7 + 31 = 31
+            mem[6] = 16'b0000111110010010;     // stw r7, (r3)
+            //mem[30] = 16'd69;  // set Mem[30] = 69
+            mem[7] = 16'b1000110000010011; // load r4, (r3) R4 = Mem[R3 (== 30)]
+            mem[8] = 16'b1001000000001010; // R4 = R4 + 0 = R4 // just to see r4 value
+
+            mem[9] = 16'b1001001000000001; // R4 = R4 - R4 = 0
+            mem[10] = 16'b0000001111110100; // BRZ 11111
 
             // add iloop: BR 7
-            mem[7] = 16'b00000000011110001; 
+            mem[31] = 16'b00000011111110001; 
+            mem[12] = 0;
+            mem[13] = 0;
 
             /*
             Nios II equiv:
@@ -39,13 +46,13 @@ module memory(CLK, reset, MemRead, MemWrite, ADDR, Data_in, Data_out);
                 addi r1, r1, 0b1111
                 sub r2, r2, r1
                 addi r3, r3, data
+                addi r7, r7, 0b1111
+                stw r7, (r3)
                 ldw r4, (r3)
                 addi r4, r4, 0
             
             iloop:
                 br iloop
-
-            data: .word 69
             */
         end
         if (MemWrite) begin

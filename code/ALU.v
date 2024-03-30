@@ -1,4 +1,4 @@
-module ALU(CLK, reset, op, in_a, in_b, out);
+module ALU(CLK, reset, op, in_a, in_b, out, flag_z);
 
     /////////////////////////////////////////////////////////////////////////////////
     // module I/O
@@ -10,6 +10,7 @@ module ALU(CLK, reset, op, in_a, in_b, out);
     input wire[15:0] in_a;       // value of register a for input to ALU
     input wire[15:0] in_b;       // value of register b for input to ALU
     output reg[15:0] out;       // value of register for output of ALU
+    output reg flag_z;          // z flag, if output == 0
 
     /////////////////////////////////////////////////////////////////////////////////
     // Operations
@@ -66,6 +67,17 @@ module ALU(CLK, reset, op, in_a, in_b, out);
                 out <= (in_a == in_b);
             end
         end
+    end
+
+    /////////////////////////////////////////////////////////////////////////////////
+    // Setting flag
+    /////////////////////////////////////////////////////////////////////////////////
+
+    always@(*) begin
+        if (out == 0) 
+            flag_z = 1;
+        else 
+            flag_z = 0;
     end
 
 endmodule

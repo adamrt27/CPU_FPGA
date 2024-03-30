@@ -1,4 +1,4 @@
-module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite, LDW_EN, dataW_MDR);
+module FSM(CLK, reset, opcode, flag_z, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite, LDW_EN, dataW_MDR);
 
     /////////////////////////////////////////////////////////////////////////////////
     // module I/O
@@ -7,6 +7,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
     input wire CLK;                                 // clock for cpu
     input wire reset;                               // reset, active-high
     input wire [15:0] opcode;                            // opcode
+    input wire flag_z;                              // z flag
     output reg MemRead, MemWrite;                   // read and write signals for memory
     output reg IR_EN, PC_EN, MDR_EN, BR_EN, RFwrite;// enable signals for PC, IR, MDR and RF
     output reg LDW_EN, dataW_MDR;                   // selectors for muxes to control input to memory ADDR 
@@ -36,6 +37,7 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
     parameter OP_BR = 5'b10001;
     parameter OP_STW = 5'b10010;
     parameter OP_LDW = 5'b10011;
+    parameter OP_BRZ = 5'b10100;
 
     /////////////////////////////////////////////////////////////////////////////////
     // State Initialization
@@ -69,6 +71,8 @@ module FSM(CLK, reset, opcode, MemRead, MemWrite, IR_EN, PC_EN, MDR_EN, BR_EN, R
                 else if (opcode[4:0] == OP_LDW) next_state = LDW_Mem;        // if op == 8,
                 else if (opcode[4:0] == OP_STW) next_state = STW;
                 else if (opcode[4:0] == OP_BR) next_state = BR;
+                else if ((opcode[4:0] == OP_BRZ) && (flag_z == 1)) next_state = BR;
+                else next_state = idle;
             end
             AR_ALU: begin // state to play note
                 next_state = AR_ROut;
