@@ -1,7 +1,44 @@
 data:
-30: 0
-31: 5
-32: 4,5,6,7,8
+# result in 25
+25: 0
+# number of elements in 26
+26: 6
+# elements in 27
+27: 4,5,6,7,8
 
 code:
-ADD R0 R5 R6
+# address of result in R0
+ADDI R0 R0 25
+# address of number of elements in R1
+ADDI R1 R0 1
+# number of elements in R2
+LDW R2 (R1)
+# address of elements in R3
+ADDI R3 R3 27
+# first element in R4, keep biggest element in R4
+LDW R4 (R3)
+
+# loop to search for biggest number
+# subtract 1 from number of elements
+SUBI R2 R2 1
+# check if number of elements is 0
+BRZ 14
+# load next element into R4
+ADDI R3 R3 1
+LDW R5 (R3)
+# if current element is bigger than biggest element, replace biggest element
+GT R6 R5 R4
+BRZ 5
+# else put biggest element back into R3
+SUB R4 R4 R4 
+ADD R4 R4 R5
+BR 5
+
+# finished
+STW R4 (R0)
+
+# iloop
+# display biggest element
+ADDI R4 R4 0
+BR 15
+

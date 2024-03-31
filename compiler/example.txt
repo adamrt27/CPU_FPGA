@@ -1,0 +1,32 @@
+# an example of a comment
+
+# data section is denoted by data:
+# NOTE DATA SECTION MUST COME FIRST
+data:
+
+# the follow line shows how a data entry is defined
+# the first number is the address of the data in memory
+# the second number is the value of the data
+30: 1
+
+# can also do the following, which is the equivalent of
+# 31: 2
+# 32: 3
+# 33: 4
+# 34: 5
+31: 2, 3, 4, 5
+
+# this is the code section, must come after the data section
+code:
+
+# DONT USE COMMAS IN INSTRUCTIONS
+
+# r1 = r0 + 10, can use decimal
+ADDI R1 R0 10
+
+# r2 = r1 + 8, can use binary
+ADDI R2 R1 0b1000
+
+# Store and load use () to denote memory address
+STW R2 (R3)
+LDW R4 (R3)

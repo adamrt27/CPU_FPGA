@@ -1,3 +1,5 @@
+input_file = "assembly2.txt"
+
 op = {
     "ADD": "00000",
     "SUB": "00001",
@@ -125,7 +127,7 @@ def parse_ldw(instr):
     opcode = op[temp[0]]
     # convert registers to binary
     # check if registers are valid
-    if not (check_reg(int(temp[1][1:])) and check_reg(int(temp[2][2:-1]))):
+    if not (check_reg(int(temp[1][1:])) and check_reg(int(temp[2][2:-2]))):
         return
     rout = dec_to_bin(int(temp[1][1:]))[-3:]
     ra = dec_to_bin(int(temp[2][2:3]))[-3:]
@@ -138,27 +140,41 @@ def parse_stw(instr):
     opcode = op[temp[0]]
     # convert registers to binary
     # check if registers are valid
-    if not (check_reg(int(temp[1][1:])) and check_reg(int(temp[2][2:-1]))):
+    if not (check_reg(int(temp[1][1:])) and check_reg(int(temp[2][2:-2]))):
         return
     rb = dec_to_bin(int(temp[1][1:]))[-3:]
     ra = dec_to_bin(int(temp[2][2:3]))[-3:]
     return "000" + ra + rb + "00" + opcode
 
 # open file and parse each line
-file = open("assembly2.txt", "r")
+in_file = open(input_file, "r")
+out_file = open("output.txt", "w")
 i = 0
 data = False
 code = False
-for line in file:
-    if (line == "data:\n"):
+for line in in_file:
+    if line == "\n":
+        continue
+    if line[0] == "#":
+        continue
+    if line == "data:\n":
         data = True
         continue
     if line == "code:\n":
         data = False
         code = True
+        i = 0
         continue
     if data:
-        print("mem[" + str(i) + "] = 16'b" + dec_to_bin(int(line)) + ";")
+        temp = line.split(" ")
+        num = temp[1].split(",")
+        if(len(num) > 1):
+            for j in range(len(num)):
+                out_file.write("mem[" + str(int(temp[0][:-1]) + j) + "] = 16'd" + str(int(num[j])) + ";")
+                out_file.write("\n")
+        else:
+            out_file.write("mem[" + temp[0][:-1] + "] = 16'd" + str(int(temp[1])) + ";")
     if code:
-        print("mem[" + str(i) + "] = 16'b" + parse_instr(line) + ";")
+        out_file.write("mem[" + str(i) + "] = 16'b" + parse_instr(line) + ";")
     i += 1
+    out_file.write("\n")
