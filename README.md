@@ -13,6 +13,7 @@ To use it:
 1) Create a new ".txt" file in the compiler folder and write your code in there
 2) Go to [compiler.py](compiler/compiler.py) and change *input_file* in line 1 to the name of your ".txt" file
 3) Run the script. Your machine code will be found in [output.txt](compiler/output.txt)
+4) Copy code from [output.txt](compiler/output.txt) to [memory.v](code/memory.v) in line 24
 
 The compiler allows for:
 * a "data" section
