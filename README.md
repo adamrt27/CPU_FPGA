@@ -2,9 +2,29 @@
 Final Project for ECE243 where I created a Computer with a CPU, Memory and I/O on the DE1-SOC FPGA using Verilog.
 
 ## Using the Processor
-You can generate machine code for the processor using the [compiler/compiler.py](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/compiler.py) script. To use this script, write your assembly code in the [compiler/assembly.txt](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/assembly.txt) file, run [compiler/compiler.py](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/compiler.py), and copy your terminal output into [code/memory.v](https://github.com/adamrt27/CPU_FPGA/blob/main/code/memory.v) at line 24. 
+You can generate machine code for the processor using the [compiler/compiler.py](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/compiler.py) script. More details can be found below.
 
 This allows the processor to run your code. Hwoever, to check if your code is running properly, you must either run a simulation (can use [testing/test.do](testing/test.do) in ModelSim), or hook up I/O such as LEDS and SW to run on the DE1-SOC.
+
+### Compiler.py Details
+The compiler.py file allows for easy compilation of your assembly code into machine code. 
+
+To use it:
+1) Create a new ".txt" file in the compiler folder and write your code in there
+2) Go to [compiler.py](compiler/compiler.py) and change *input_file* in line 1 to the name of your ".txt" file
+3) Run the script. Your machine code will be found in [output.txt](compiler/output.txt)
+
+The compiler allows for:
+* a "data" section
+  * can put stuff into memory to start
+* a "code" section
+  * write your code here
+* comments
+  * use # to write comments
+* empty lines
+  * parser automatically skips empty lines
+ 
+for more details go to [example.txt](compiler/example.txt).
 
 ## Assembly
 Description of the assembly language used for this processor. It is similar to NIOS II.
