@@ -5,8 +5,7 @@
 data:
 
 # the follow line shows how a data entry is defined
-# the first number is the address of the data in memory
-# the second number is the value of the data
+# ADDRESS: DATA is the format
 30: 1
 
 # can also do the following, which is the equivalent of
