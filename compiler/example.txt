@@ -1,7 +1,7 @@
 # an example of a comment
 
-# data section is denoted by data:
-# NOTE DATA SECTION MUST COME FIRST
+# data section is denoted by "data:"
+# Can come before or after the code section
 data:
 
 # the follow line shows how a data entry is defined
