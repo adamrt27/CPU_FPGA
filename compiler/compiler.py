@@ -1,4 +1,4 @@
-input_file = "assembly2.txt"
+input_file = "lab2_big.txt"
 
 op = {
     "ADD": "00000",
