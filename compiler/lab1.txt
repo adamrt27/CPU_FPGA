@@ -1,3 +1,4 @@
+code:
 ADDI R1 R1 1
 ADDI R3 R3 29
 SUB R2 R2 R2

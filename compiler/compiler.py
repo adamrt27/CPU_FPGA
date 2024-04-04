@@ -1,4 +1,4 @@
-input_file = "lab2_big.txt"
+input_file = "lab1.txt"
 
 op = {
     "ADD": "00000",

@@ -1,4 +1,4 @@
-module cpu(CLK, reset);
+module cpu(CLK, reset, program, regDisp, dataDisp);
 
     /////////////////////////////////////////////////////////////////////////////////
     // module I/O
@@ -6,7 +6,9 @@ module cpu(CLK, reset);
 
     input wire CLK;             // clock for cpu
     input wire reset;           // reset, active-high
-    //output [15:0] out;       // output of CPU to bus
+    input wire [1:0] program;   // which program to run
+    input wire [2:0] regDisp;   // choice of register to show
+    output [15:0] dataDisp;       // output of CPU to bus
 
     /////////////////////////////////////////////////////////////////////////////////
     // Opcodes
@@ -76,7 +78,7 @@ module cpu(CLK, reset);
     Reg R_PC(CLK, reset, PC_EN, PC_IN, PC);
 
     // memory
-    memory m0(CLK, reset, MemRead, MemWrite, ADDR, dataB_immed, MemOut);
+    memory m0(CLK, reset, program, MemRead, MemWrite, ADDR, dataB_immed, MemOut);
 
     // IR, instruction register
     Reg R_IR(CLK, reset, IR_EN, MemOut, IR);
@@ -88,7 +90,7 @@ module cpu(CLK, reset);
     parser p0(CLK, reset, IR, immed, op, regA, regB, regOut);
 
     // Register File
-    RegisterFile RF(CLK, reset, RFwrite, regA, regB, regOut, dataA, dataB, dataW);
+    RegisterFile RF(CLK, reset, RFwrite, regA, regB, regOut, regDisp, dataA, dataB, dataW, dataDisp);
 
     // immed selector MUX
     mux M_immed(CLK, reset, dataB, ImmdZE, immed, dataB_immed);
