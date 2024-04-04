@@ -19,4 +19,6 @@ force {CLK} 0 0ms, 1 {5ms} -r 10 ms
 
 # TestCases: reset, play middle c (c4), square
 force {reset} 1 0 ms, 0 10 ms
-run 5000 ms
+force {program} 1 0 ms
+force {regDisp} 100 0 ms
+run 20000 ms

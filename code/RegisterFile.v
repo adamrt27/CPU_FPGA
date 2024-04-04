@@ -7,7 +7,7 @@ module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, regDisp, dataA, dataB
     input wire CLK;                     // clock for cpu
     input wire reset;                   // reset, active-high
     input wire RFwrite;                 // if 1, regW = dataW
-    input wire [2:0] regA, regB, regW, regData;        // the number of the register 
+    input wire [2:0] regA, regB, regW, regDisp;        // the number of the register 
     input wire [15:0] dataW;            // data to be put into regW
     output reg [15:0] dataA, dataB, dataDisp;    // data to be put into regA/B
 

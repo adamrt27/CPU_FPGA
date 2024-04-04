@@ -1,4 +1,9 @@
 code:
+# add numbers 1 to 30 and store in R4
+# R1 is 1
+# R2 is the current number to add
+# R3 is the limit
+# R4 is the result
 ADDI R1 R1 1
 ADDI R3 R3 29
 SUB R2 R2 R2
