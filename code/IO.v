@@ -17,7 +17,7 @@ module IO(CLOCK_50, KEY, SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR);
 
     // reset
     wire reset;
-    assign reset = KEY[0];
+    assign reset = ~KEY[0];
 
     // regDisp
     wire [2:0] regDisp;
@@ -25,7 +25,7 @@ module IO(CLOCK_50, KEY, SW, HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, LEDR);
 
     // program
     wire [1:0] program;
-    assign program = KEY[2:1];
+    assign program = ~KEY[2:1];
 
     // dataDisp
     wire [15:0] dataDisp;

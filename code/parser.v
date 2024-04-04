@@ -45,17 +45,17 @@ module parser(CLK, reset, opcode, immed, op, regA, regB, regOut);
     // operations go: out = (in_a) op (in_b)
     // parameters to 
 
-    parameter IDLE = 0;
-    parameter ADD = 1;
-    parameter SUB = 2;
-    parameter OR = 3;
-    parameter AND = 4;
-    parameter XOR = 5;
-    parameter SL = 6;
-    parameter SR = 7;
-    parameter GT = 8;
-    parameter LT = 9;
-    parameter EQ = 10;
+    parameter IDLE = 4'd0;
+    parameter ADD = 4'd1;
+    parameter SUB = 4'd2;
+    parameter OR = 4'd3;
+    parameter AND = 4'd4;
+    parameter XOR = 4'd5;
+    parameter SL = 4'd6;
+    parameter SR = 4'd7;
+    parameter GT = 4'd8;
+    parameter LT = 4'd9;
+    parameter EQ = 4'd10;
 
     /////////////////////////////////////////////////////////////////////////////////
     // Parsing Op-Code

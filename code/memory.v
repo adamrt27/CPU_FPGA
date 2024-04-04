@@ -49,7 +49,7 @@ module memory(CLK, reset, program, MemRead, MemWrite, ADDR, Data_in, Data_out);
                 mem[16] = 16'b0000000111110001;
             end
             if (program == 2'b01) begin // if key 1, do lab 1
-            
+
                 mem[0] = 16'b0010010000100111;
                 mem[1] = 16'b0110111110100111;
                 mem[2] = 16'b0100100100000001;
@@ -62,10 +62,10 @@ module memory(CLK, reset, program, MemRead, MemWrite, ADDR, Data_in, Data_out);
             end
         end
         if (MemWrite) begin
-            mem[ADDR] <= Data_in;
+            mem[ADDR] = Data_in;
             end
         if (MemRead) begin
-            Data_out <= mem[ADDR];
+            Data_out = mem[ADDR];
             end
     end
 

@@ -15,17 +15,21 @@ module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, regDisp, dataA, dataB
 
 
     /////////////////////////////////////////////////////////////////////////////////
-    // Register Initialization
+    // Register Initialization and setting regW
     /////////////////////////////////////////////////////////////////////////////////
 
     // 0 - 7: r0 - r7
 
     reg [15:0]register[7:0];
-    always@(posedge CLK or reset) begin
+    always@(posedge CLK) begin
         if (reset) begin        // on reset, set all registers to 0
             for (i = 0; i < 8; i = i + 1) begin
                 register[i] <= 16'b0;
             end
+        end
+
+        if (RFwrite) begin
+            register[regW] <= dataW;
         end
     end
 
@@ -37,16 +41,6 @@ module RegisterFile(CLK, reset, RFwrite, regA, regB, regW, regDisp, dataA, dataB
         dataA <= register[regA];
         dataB <= register[regB];
         dataDisp <= register[regDisp];
-    end
-
-    /////////////////////////////////////////////////////////////////////////////////
-    // Setting regW
-    /////////////////////////////////////////////////////////////////////////////////
-
-    always@(posedge CLK) begin
-        if (RFwrite) begin
-            register[regW] <= dataW;
-        end
     end
 
 endmodule
