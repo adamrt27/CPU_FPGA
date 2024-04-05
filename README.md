@@ -6,6 +6,11 @@ You can generate machine code for the processor using the [compiler/compiler.py]
 
 This allows the processor to run your code. Hwoever, to check if your code is running properly, you must either run a simulation (can use [testing/test.do](testing/test.do) in ModelSim), or hook up I/O such as LEDS and SW to run on the DE1-SOC.
 
+## RTL Desgin
+![Datapath](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-7.jpg)
+![Finite State Machine](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-8.jpg)
+![Opcodes](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-9.jpg)
+
 ### Compiler.py Details
 The compiler.py file allows for easy compilation of your assembly code into machine code. 
 
@@ -63,8 +68,3 @@ Branch instructions follow this format: **_XXX Immed5_**.
 You can do the following operations:
 * BR (normal branch)
 * BRZ (branch if Z flag is 1, meaning last operations in ALU was equal to 0)
-
-## RTL Desgin
-![Datapath](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-7.jpg)
-![Finite State Machine](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-8.jpg)
-![Opcodes](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-9.jpg)
