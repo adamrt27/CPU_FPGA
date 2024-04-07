@@ -29,7 +29,7 @@ LDW R5 (R3)
 # if current element is bigger than biggest element, replace biggest element
 GT R6 R5 R4
 BRZ 5
-# else put biggest element back into R3
+# else put biggest element back into R4
 SUB R4 R4 R4 
 ADD R4 R4 R5
 BR 5
