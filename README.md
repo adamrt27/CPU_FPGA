@@ -7,17 +7,12 @@ The given code, when compiled using [code/IO.v](https://github.com/adamrt27/CPU_
 
 If you want to run other programs on the FPGA, update [code/memory.v](https://github.com/adamrt27/CPU_FPGA/blob/main/code/memory.v) with the output of [compiler/output.txt](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/output.txt) after running the [compiler/compiler.py](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/compiler.py) script on your input file.
 
-## Using the Processor
-You can generate machine code for the processor using the [compiler/compiler.py](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/compiler.py) script. More details can be found below.
-
-This allows the processor to run your code. However, to check if your code is running properly, you must either run a simulation (can use [testing/test.do](testing/test.do) in ModelSim), or hook up I/O such as LEDS and SW to run on the DE1-SOC.
-
 ## RTL Design
 ![Datapath](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-7.jpg)
 ![Finite State Machine](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-8.jpg)
 ![Opcodes](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-9.jpg)
 
-### Compiler.py Details
+## Compiler.py Details
 The compiler.py file allows for easy compilation of your assembly code into machine code. 
 
 To use it:
