@@ -10,7 +10,7 @@ If you want to run other programs on the FPGA, update [code/memory.v](https://gi
 ## Using the Processor
 You can generate machine code for the processor using the [compiler/compiler.py](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/compiler.py) script. More details can be found below.
 
-This allows the processor to run your code. Hwoever, to check if your code is running properly, you must either run a simulation (can use [testing/test.do](testing/test.do) in ModelSim), or hook up I/O such as LEDS and SW to run on the DE1-SOC.
+This allows the processor to run your code. However, to check if your code is running properly, you must either run a simulation (can use [testing/test.do](testing/test.do) in ModelSim), or hook up I/O such as LEDS and SW to run on the DE1-SOC.
 
 ## RTL Desgin
 ![Datapath](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-7.jpg)
