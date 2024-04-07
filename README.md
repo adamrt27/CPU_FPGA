@@ -2,7 +2,14 @@
 Final Project for ECE243 where I created a Computer with a CPU, Memory and I/O on the DE1-SOC FPGA using Verilog.
 
 
-The given code, when compiled using [code/IO.v](https://github.com/adamrt27/CPU_FPGA/blob/main/code/IO.v) will run the program lab1.txt and lab2_big.txt when either KEY1 or KEY2 is pressed in combination with KEY0 (reset). You can then use SW[2:0] to set which register you want to look at, in the RegisterFile, and the output will be displayed on HEX0-3 in hexadecimal.
+The given code, when compiled using [code/IO.v](https://github.com/adamrt27/CPU_FPGA/blob/main/code/IO.v) will run the program [lab1.txt](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/lab1.txt) and [lab2_big.txt](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/lab2_big.txt) when either KEY1 or KEY2 is pressed in combination with KEY0 (reset). 
+* lab1
+  * Adds up numbers from 1 to 30 and places result in R4
+* lab2
+  * Search through list and place biggest element in R4
+ 
+ 
+You can then use SW[2:0] to set which register you want to look at, in the RegisterFile, and the output will be displayed on HEX0-3 in hexadecimal.
 
 
 If you want to run other programs on the FPGA, update [code/memory.v](https://github.com/adamrt27/CPU_FPGA/blob/main/code/memory.v) with the output of [compiler/output.txt](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/output.txt) after running the [compiler/compiler.py](https://github.com/adamrt27/CPU_FPGA/blob/main/compiler/compiler.py) script on your input file.
