@@ -12,7 +12,7 @@ You can generate machine code for the processor using the [compiler/compiler.py]
 
 This allows the processor to run your code. However, to check if your code is running properly, you must either run a simulation (can use [testing/test.do](testing/test.do) in ModelSim), or hook up I/O such as LEDS and SW to run on the DE1-SOC.
 
-## RTL Desgin
+## RTL Design
 ![Datapath](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-7.jpg)
 ![Finite State Machine](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-8.jpg)
 ![Opcodes](https://github.com/adamrt27/CPU_FPGA/blob/main/readme/Project-9.jpg)
