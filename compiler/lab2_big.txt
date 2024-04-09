@@ -23,7 +23,7 @@ LDW R4 (R3)
 SUBI R2 R2 1
 # check if number of elements is 0
 BRZ 14
-# load next element into R4
+# load next element into R5
 ADDI R3 R3 1
 LDW R5 (R3)
 # if current element is bigger than biggest element, replace biggest element
